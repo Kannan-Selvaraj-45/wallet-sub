@@ -1,7 +1,4 @@
-{{page-title "EmberSubscription"}}
-
-{{! The following component displays Ember's default welcome message. }}
-<WelcomePage />
-{{! Feel free to remove this! }}
-
-{{outlet}}
+<Sidebar @onToggle={{this.handleSidebarToggle}}/>
+<div class="main-content {{if this.isSidebarCollapsed 'sidebar-collapsed'}}">
+  {{outlet}}
+</div>

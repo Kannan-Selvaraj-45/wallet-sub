@@ -1,0 +1,218 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>Welcome Kannan,</h1>
+      <p>Manage all your subscriptions in one place. Track spending, set
+        reminders, and optimize your digital services.</p>
+    </div>
+    <div class="header-actions">
+      <button
+        class="wallet-btn"
+        type="button"
+        {{on "click" (fn this.transitionToRoute "wallet")}}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-wallet-icon lucide-wallet"
+        ><path
+            d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"
+          /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg>
+        <p>Manage Wallet</p>
+      </button>
+      <button
+        class="add-btn"
+        type="button"
+        {{on "click" (fn this.transitionToRoute "subscriptions")}}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-plus-icon lucide-plus"
+        ><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+        <p>Add Subscription</p>
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <div class="stat-icon wallet-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-wallet-icon lucide-wallet"
+        ><path
+            d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"
+          /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg>
+      </div>
+      <div class="stat-title">Wallet Balance</div>
+      <div class="stat-value"><span style={{if this.positiveIn "color:#7036e7;"}}>₹</span>{{this.wallet.balance}}.00</div>
+      <button
+        class="btn btn-light btn-block"
+        type="button"
+        {{on "click" (fn this.transitionToRoute "wallet")}}
+      >Manage Wallet</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon subscription-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-calendar-icon lucide-calendar"
+        ><path d="M8 2v4" /><path d="M16 2v4" /><rect
+            width="18"
+            height="18"
+            x="3"
+            y="4"
+            rx="2"
+          /><path d="M3 10h18" /></svg>
+      </div>
+      <div class="stat-title">Active Subscriptions</div>
+      <div class="stat-value">0</div>
+      <button
+        class="btn btn-light btn-block"
+        type="button"
+        {{on "click" (fn this.transitionToRoute "subscriptions")}}
+      >Manage Subscriptions</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon spending-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-history-icon lucide-history"
+        ><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path
+            d="M3 3v5h5"
+          /><path d="M12 7v5l4 2" /></svg>
+      </div>
+      <div class="stat-title">Monthly Spending</div>
+      <div class="stat-value">₹0.00</div>
+      <button
+        class="btn btn-light btn-block"
+        type="button"
+        {{on "click" (fn this.transitionToRoute "history")}}
+      >View History</button>
+    </div>
+  </div>
+
+  <div class="dashboard-sections">
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Recent Subscriptions</h2>
+        <a
+          href="#"
+          class="view-all"
+          {{on "click" (fn this.transitionToRoute "subscriptions")}}
+        >View All
+          <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-calendar"></i>
+        </div>
+        <p>You don't have any subscriptions yet</p>
+        <button
+          class="btn btn-primary"
+          type="button"
+          {{on "click" (fn this.transitionToRoute "subscriptions")}}
+        >
+          <i class="fas fa-plus"></i>
+          Add Subscription
+        </button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Recent Transactions</h2>
+        <a
+          href="#"
+          class="view-all"
+          {{on "click" (fn this.transitionToRoute "history")}}
+        >View All
+          <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-history"></i>
+        </div>
+        <p>No transactions yet</p>
+        <button
+          class="btn btn-primary"
+          type="button"
+          {{on "click" (fn this.transitionToRoute "wallet")}}
+        >
+          <i class="fas fa-plus"></i>
+          Add Money
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="special-offers">
+  <h1>Special Offers</h1>
+  <div class="offers-row">
+    {{#each this.offers as |offer|}}
+      <div class="offer-card" style="background: linear-gradient(to right, {{get offer.colors "0"}}, {{get offer.colors "1"}});">
+        <div class="offer-image-container" style="background-image: url('{{offer.image}}');">
+          <div class="overlay"></div>
+          <div class="featured">Featured</div>
+          <div class="plan-title-description">
+            <h4>{{offer.title}}</h4>
+            <p>Limited time offer</p>
+          </div>
+        </div>
+        <div class="plan-details-container">
+          <h3>{{offer.plan}}</h3>
+          <p>{{offer.devices}}</p>
+          <h2>₹{{offer.offerPrice}}<sub>/month</sub> {{#if offer.actualPrice}}<del>₹{{offer.actualPrice}}</del>{{/if}}</h2>
+          <button class="trail-button" type="button" {{on 'click' (fn this.transitionToRoute "subscriptions")}}>
+            {{if (eq offer.title "Spotify") "Get Family Plan"}}
+            {{if (eq offer.title "Netflix") "Try 1 Month Free"}}
+            {{if (eq offer.title "Youtube") "Get Started"}}
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+</div>

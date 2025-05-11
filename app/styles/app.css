@@ -1,1 +1,15 @@
-/* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
+@import url("sidebar.css");
+@import url("dashboard.css");
+@import url("wallet.css");
+
+.main-content {
+  margin-left: 285px;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 70px;
+}
