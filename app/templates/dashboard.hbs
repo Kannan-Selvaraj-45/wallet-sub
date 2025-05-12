@@ -49,26 +49,133 @@
     </div>
   </div>
 
-  <div class="dashboard-stats">
-    <div class="stat-card">
-      <div class="stat-icon wallet-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-wallet-icon lucide-wallet"
-        ><path
-            d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"
-          /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg>
+  <div class="dashboard-stats-container">
+    <div class="dashboard-stat-card">
+      <div class="d-flex align-items-center">
+        <div class="dashboard-stat-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-wallet-icon lucide-wallet"
+          ><path
+              d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"
+            /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg>
+
+        </div>
+        <h2 class="dashboard-stat-title pt-2">Wallet Balance</h2>
       </div>
-      <div class="stat-title">Wallet Balance</div>
-      <div class="stat-value"><span style={{if this.positiveIn "color:#7036e7;"}}>₹</span>{{this.wallet.balance}}.00</div>
+      <div class="dashboard-stat-value"><span
+          style={{if this.positiveIn "color:#7036e7;"}}
+        >₹</span>{{this.wallet.balance}}.00</div>
+      <button
+        class="btn btn-light btn-block"
+        type="button"
+        {{on "click" (fn this.transitionToRoute "wallet")}}
+      >Manage Wallet</button>
+    </div>
+    <div class="dashboard-stat-card">
+      <div class="d-flex align-items-center mb-1">
+        <div class="dashboard-stat-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-trending-up-icon lucide-trending-up"
+          ><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline
+              points="16 7 22 7 22 13"
+            /></svg>
+
+        </div>
+        <h2 class="dashboard-stat-title pt-1">Subscription Analytics</h2>
+      </div>
+      <div class="analytics-container">
+        <div class="analytics-card">
+          <span class="analytics-title">Active Subscriptions</span>
+          <p class="analytics-value subscription-count-value">0</p>
+        </div>
+        <div class="analytics-card">
+          <span class="analytics-title">Monthly Spending</span>
+          <p class="analytics-value montly-count-value">₹
+            0.00</p>
+        </div>
+        <div class="analytics-card">
+          <span class="analytics-title">Top Category</span>
+          <p class="analytics-value fw-bolder text-black fs-5">None</p>
+        </div>
+        <div class="analytics-card">
+          <span class="analytics-title">Trend</span>
+          <p class="analytics-value">
+            <span style="color: green;">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-move-down-icon lucide-move-down"
+              ><path d="M8 18L12 22L16 18" /><path d="M12 2V22" /></svg>
+            </span>
+
+            <span
+              class="analytic-trend-data fw-bolder text-black fs-5"
+            >Savings</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="min-stat-container">
+    <div class="min-stat-card">
+      <div class="d-flex align-items-center">
+        <div class="dashboard-stat-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-boxes-icon lucide-boxes"
+          ><path
+              d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"
+            /><path d="m7 16.5-4.74-2.85" /><path d="m7 16.5 5-3" /><path
+              d="M7 16.5v5.17"
+            /><path
+              d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"
+            /><path d="m17 16.5-5-3" /><path d="m17 16.5 4.74-2.85" /><path
+              d="M17 16.5v5.17"
+            /><path
+              d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"
+            /><path d="M12 8 7.26 5.15" /><path d="m12 8 4.74-2.85" /><path
+              d="M12 13.5V8"
+            /></svg>
+        </div>
+
+        <h3 class="dashboard-stat-title pt-2">Subscriptions</h3>
+      </div>
+      <div class="min-stat-value"><span
+          style={{if this.positiveIn "color:#7036e7;"}}
+        >₹</span>0.00</div>
       <button
         class="btn btn-light btn-block"
         type="button"
@@ -76,60 +183,68 @@
       >Manage Wallet</button>
     </div>
 
-    <div class="stat-card">
-      <div class="stat-icon subscription-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-calendar-icon lucide-calendar"
-        ><path d="M8 2v4" /><path d="M16 2v4" /><rect
-            width="18"
-            height="18"
-            x="3"
-            y="4"
-            rx="2"
-          /><path d="M3 10h18" /></svg>
+    <div class="min-stat-card">
+      <div class="d-flex align-items-center">
+        <div class="dashboard-stat-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-badge-percent-icon lucide-badge-percent"
+          ><path
+              d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+            /><path d="m15 9-6 6" /><path d="M9 9h.01" /><path
+              d="M15 15h.01"
+            /></svg>
+        </div>
+
+        <h3 class="dashboard-stat-title pt-2">Savings from discounts</h3>
       </div>
-      <div class="stat-title">Active Subscriptions</div>
-      <div class="stat-value">0</div>
+      <div class="min-stat-value"><span
+          style={{if this.positiveIn "color:#7036e7;"}}
+        >₹</span>0.00</div>
       <button
         class="btn btn-light btn-block"
         type="button"
-        {{on "click" (fn this.transitionToRoute "subscriptions")}}
-      >Manage Subscriptions</button>
+        {{on "click" (fn this.transitionToRoute "wallet")}}
+      >View Details</button>
     </div>
 
-    <div class="stat-card">
-      <div class="stat-icon spending-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-history-icon lucide-history"
-        ><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path
-            d="M3 3v5h5"
-          /><path d="M12 7v5l4 2" /></svg>
+    <div class="min-stat-card">
+      <div class="d-flex align-items-center">
+        <div class="dashboard-stat-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-shield-icon lucide-shield"
+          ><path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            /></svg>
+        </div>
+
+        <h3 class="dashboard-stat-title pt-2">Protection</h3>
       </div>
-      <div class="stat-title">Monthly Spending</div>
-      <div class="stat-value">₹0.00</div>
+      <div class="min-stat-value"><span
+          class="min-stat-plan"
+        >Basic</span></div>
       <button
-        class="btn btn-light btn-block"
+        class="btn btn-light btn-block upgrade text-light"
         type="button"
-        {{on "click" (fn this.transitionToRoute "history")}}
-      >View History</button>
+        {{on "click" (fn this.transitionToRoute "upgrade")}}
+      >Upgrade</button>
     </div>
   </div>
 
@@ -188,31 +303,46 @@
   </div>
 
   <div class="special-offers">
-  <h1>Special Offers</h1>
-  <div class="offers-row">
-    {{#each this.offers as |offer|}}
-      <div class="offer-card" style="background: linear-gradient(to right, {{get offer.colors "0"}}, {{get offer.colors "1"}});">
-        <div class="offer-image-container" style="background-image: url('{{offer.image}}');">
-          <div class="overlay"></div>
-          <div class="featured">Featured</div>
-          <div class="plan-title-description">
-            <h4>{{offer.title}}</h4>
-            <p>Limited time offer</p>
+    <h1>Special Offers</h1>
+    <div class="offers-row">
+      {{#each this.offers as |offer|}}
+        <div
+          class="offer-card"
+          style="background: linear-gradient(to right, {{get
+            offer.colors
+            '0'
+          }}, {{get offer.colors '1'}});"
+        >
+          <div
+            class="offer-image-container"
+            style="background-image: url('{{offer.image}}');"
+          >
+            <div class="overlay"></div>
+            <div class="featured">Featured</div>
+            <div class="plan-title-description">
+              <h4>{{offer.title}}</h4>
+              <p>Limited time offer</p>
+            </div>
+          </div>
+          <div class="plan-details-container">
+            <h3>{{offer.plan}}</h3>
+            <p>{{offer.devices}}</p>
+            <h2>₹{{offer.offerPrice}}<sub>/month</sub>
+              {{#if offer.actualPrice}}<del
+                >₹{{offer.actualPrice}}</del>{{/if}}</h2>
+            <button
+              class="trail-button"
+              type="button"
+              {{on "click" (fn this.transitionToRoute "subscriptions")}}
+            >
+              {{if (eq offer.title "Spotify") "Get Family Plan"}}
+              {{if (eq offer.title "Netflix") "Try 1 Month Free"}}
+              {{if (eq offer.title "Youtube") "Get Started"}}
+              <i class="fas fa-arrow-right"></i>
+            </button>
           </div>
         </div>
-        <div class="plan-details-container">
-          <h3>{{offer.plan}}</h3>
-          <p>{{offer.devices}}</p>
-          <h2>₹{{offer.offerPrice}}<sub>/month</sub> {{#if offer.actualPrice}}<del>₹{{offer.actualPrice}}</del>{{/if}}</h2>
-          <button class="trail-button" type="button" {{on 'click' (fn this.transitionToRoute "subscriptions")}}>
-            {{if (eq offer.title "Spotify") "Get Family Plan"}}
-            {{if (eq offer.title "Netflix") "Try 1 Month Free"}}
-            {{if (eq offer.title "Youtube") "Get Started"}}
-            <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
-    {{/each}}
+      {{/each}}
+    </div>
   </div>
-</div>
 </div>
