@@ -5,7 +5,14 @@ import { inject as service } from '@ember/service';
 
 export default class WalletController extends Controller {
   @service wallet;
+  @service router;
+  @service flashMessages;
   @tracked activeTab = 'overview';
+
+  @action
+  transitionToRoute(){
+    this.router.transitionTo('dashboard')
+  }
   
   get positiveIn() {
     return this.wallet.monthlyIn > 0;
@@ -23,6 +30,13 @@ export default class WalletController extends Controller {
     const amount = parseFloat(this.wallet.amount);
    
     return !isNaN(amount) && amount > 0;
+  }
+
+  @action
+   removeFlashMessage(flash) {
+    this.flashMessages.queue = this.flashMessages.queue.filter(
+      (msg) => msg !== flash,
+    );
   }
 
   @action
@@ -62,5 +76,6 @@ export default class WalletController extends Controller {
   processAddMoney(amount) {
     this.wallet.balance += amount;
     this.wallet.monthlyIn += amount;
+    this.flashMessages.success(`Rs.${amount} added to wallet!`);
   }
 }
