@@ -54,7 +54,7 @@
   display: flex;
   gap: 30px;
   align-items: center;
-   margin: 18px 15px;
+  margin: 18px 15px;
 }
 .balance-icon {
   width: 80px;
@@ -372,8 +372,8 @@
   background-color: #f0eafc;
   transform: translateY(-2px);
 }
-.add-money-section .rupee{
-font-size: 20px;
+.add-money-section .rupee {
+  font-size: 20px;
   font-weight: 600;
   color: #7036e7;
   font-weight: bold;
@@ -409,7 +409,7 @@ font-size: 20px;
   margin-bottom: 15px;
 }
 
-.wallet-payment-options{
+.wallet-payment-options {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -598,7 +598,7 @@ font-size: 20px;
     justify-content: center;
   }
 
-  .wallet-payment-options{
+  .wallet-payment-options {
     flex-direction: column;
   }
 

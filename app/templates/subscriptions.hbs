@@ -264,6 +264,7 @@
               placeholder="Netflix, Spotify, etc."
               value={{this.newSubscription.title}}
               {{on "input" this.updateSubscriptionName}}
+              disabled={{this.isEditing}}
             />
           </div>
           <div class="form-row">
@@ -274,6 +275,7 @@
                   id="subscription-plan"
                   value={{this.newSubscription.plan}}
                   {{on "change" this.updateSubscriptionPlan}}
+                  disabled={{this.isEditing}}
                 >
                   <option value="Standard">Standard</option>
                   <option value="Premium">Premium</option>
@@ -291,6 +293,7 @@
                   id="billing-cycle"
                   value={{this.newSubscription.planCycle}}
                   {{on "change" this.updateBillingCycle}}
+                  disabled={{this.isEditing}}
                 >
                   <option
                     value="monthly"
@@ -322,6 +325,7 @@
                 placeholder="0.00"
                 value={{this.newSubscription.planPrice}}
                 {{on "input" this.updateAmount}}
+                disabled={{this.isEditing}}
               />
             </div>
 
@@ -449,47 +453,53 @@
           <button
             class="add-btn"
             type="button"
-            {{on "click" this.addSubscription}}
-          >Add Subscription</button>
+            {{on "click" this.saveSubscription}}
+          >Subscribe</button>
         </div>
       </div>
     </div>
   {{/if}}
-
+ 
   <div class="your-subscriptions">
     <div class="search-filter">
       <div class="search-container">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search subscriptions..." />
+        <input type="text" placeholder="Search subscriptions..." {{on 'input' this.searchTitle}}/>
       </div>
-      <button class="filter-btn">
+      <button class="filter-btn" type="button">
         <i class="fas fa-filter"></i>
         Filter
       </button>
     </div>
-
+ 
     <div class="subscription-tabs">
       <button
         class="tab-btn {{if this.isAllActive 'active'}}"
+        type="button"
         {{on "click" (fn this.setActiveTab "all")}}
       >All</button>
       <button
         class="tab-btn {{if this.isActiveTabActive 'active'}}"
+        type="button"
         {{on "click" (fn this.setActiveTab "active")}}
       >Active</button>
       <button
         class="tab-btn {{if this.isInactiveActive 'active'}}"
+        type="button"
         {{on "click" (fn this.setActiveTab "inactive")}}
       >Inactive</button>
     </div>
-
+ 
     {{#if this.hasSubscriptions}}
       {{#if this.isAllActive}}
         <div class="subscription-list">
-          {{#each this.subscriptions.userSubscriptions as |subscription|}}
+          {{#each this.filteredSubscriptions as |subscription|}}
             <div class="subscription-item">
               <div class="subscription-item-logo">
-                <div class="logo-placeholder">{{subscription.title.[0]}}</div>
+                <div class="logo-placeholder">{{get
+                    subscription.title
+                    "0"
+                  }}</div>
               </div>
               <div class="subscription-item-details">
                 <div class="subscription-item-name">{{subscription.title}}</div>
@@ -501,11 +511,38 @@
                 <div class="price">₹{{subscription.planPrice}}</div>
                 <div class="billing-cycle">/{{subscription.planCycle}}</div>
               </div>
+              <div class="subscription-start-date">
+
+                <input
+                  type="date"
+                  value={{subscription.startDate}}
+                  class="disabled-date"
+                  disabled
+                />
+                <span class="start-date">subscribed</span>
+              </div>
+              <div class="subscription-start-date">
+                <input
+                  type="date"
+                  value={{subscription.nextDue}}
+                  class="disabled-date"
+                  disabled
+                />
+                <span class="start-date">Next due</span>
+              </div>
               <div class="subscription-item-actions">
-                <button class="action-btn">
+                <button
+                  class="action-btn"
+                  type="button"
+                  {{on "click" (fn this.editSubscription subscription)}}
+                >
                   <i class="fas fa-pencil-alt"></i>
                 </button>
-                <button class="action-btn">
+                <button
+                  class="action-btn"
+                  type="button"
+                  {{on "click" (fn this.deleteSubscription subscription)}}
+                >
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -515,11 +552,14 @@
 
       {{else if this.isActiveTabActive}}
         <div class="subscription-list">
-          {{#each this.subscriptions.userSubscriptions as |subscription|}}
+          {{#each this.filteredSubscriptions as |subscription|}}
             {{#if subscription.isActive}}
               <div class="subscription-item">
                 <div class="subscription-item-logo">
-                  <div class="logo-placeholder">{{subscription.title.[0]}}</div>
+                  <div class="logo-placeholder">{{get
+                      subscription.title
+                      "0"
+                    }}</div>
                 </div>
                 <div class="subscription-item-details">
                   <div
@@ -533,11 +573,39 @@
                   <div class="price">₹{{subscription.planPrice}}</div>
                   <div class="billing-cycle">/{{subscription.planCycle}}</div>
                 </div>
+                <div class="subscription-start-date">
+
+                  <input
+                    type="date"
+                    value={{subscription.startDate}}
+                    class="disabled-date"
+                    disabled
+                  />
+                  <span class="start-date">subscribed</span>
+                </div>
+                <div class="subscription-start-date">
+                  <input
+                    type="date"
+                    value={{subscription.nextDue}}
+                    class="disabled-date"
+                    disabled
+                  />
+                  <span class="start-date">Next due</span>
+                </div>
+
                 <div class="subscription-item-actions">
-                  <button class="action-btn">
+                  <button
+                    class="action-btn"
+                    type="button"
+                    {{on "click" (fn this.editSubscription subscription)}}
+                  >
                     <i class="fas fa-pencil-alt"></i>
                   </button>
-                  <button class="action-btn">
+                  <button
+                    class="action-btn"
+                    type="button"
+                    {{on "click" (fn this.deleteSubscription subscription)}}
+                  >
                     <i class="fas fa-trash"></i>
                   </button>
                 </div>
@@ -547,11 +615,14 @@
         </div>
       {{else}}
         <div class="subscription-list">
-          {{#each this.subscriptions.userSubscriptions as |subscription|}}
-            {{#if (not subscription.isActive)}}
+          {{#if this.inactiveSubscriptions}}
+            {{#each this.inactiveSubscriptions as |subscription|}}
               <div class="subscription-item">
                 <div class="subscription-item-logo">
-                  <div class="logo-placeholder">{{subscription.title.[0]}}</div>
+                  <div class="logo-placeholder">{{get
+                      subscription.title
+                      "0"
+                    }}</div>
                 </div>
                 <div class="subscription-item-details">
                   <div
@@ -566,31 +637,31 @@
                   <div class="billing-cycle">/{{subscription.planCycle}}</div>
                 </div>
                 <div class="subscription-item-actions">
-                  <button class="action-btn">
+                  <button class="action-btn" type="button">
                     <i class="fas fa-pencil-alt"></i>
                   </button>
-                  <button class="action-btn">
+                  <button class="action-btn" type="button">
                     <i class="fas fa-trash"></i>
                   </button>
                 </div>
               </div>
-            {{else}}
-              <div class="empty-subscriptions">
-                <div class="empty-icon">
-                  <i class="fas fa-box-open"></i>
-                </div>
-                <h3>No Inactive subscriptions </h3>
-
-                <button
-                  class="add-first-btn"
-                  {{on "click" this.openAddSubscriptionModal}}
-                >
-                  <i class="fas fa-plus"></i>
-                  Add new subscription
-                </button>
+            {{/each}}
+          {{else}}
+            <div class="empty-subscriptions">
+              <div class="empty-icon">
+                <i class="fas fa-box-open"></i>
               </div>
-            {{/if}}
-          {{/each}}
+              <h3>No inactive subscriptions </h3>
+              <button
+                class="add-first-btn"
+                type="button"
+                {{on "click" this.openAddSubscriptionModal}}
+              >
+                <i class="fas fa-plus"></i>
+                Add new subscription
+              </button>
+            </div>
+          {{/if}}
         </div>
       {{/if}}
 
@@ -604,6 +675,7 @@
           subscription.</p>
         <button
           class="add-first-btn"
+          type="button"
           {{on "click" this.openAddSubscriptionModal}}
         >
           <i class="fas fa-plus"></i>

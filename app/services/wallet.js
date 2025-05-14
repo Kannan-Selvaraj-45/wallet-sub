@@ -8,7 +8,6 @@ export default class WalletService extends Service {
 
   calculateMonthlyExpense() {
     this.monthlyEx = this.monthlyIn - this.balance;
-    console.log(this.monthlyEx);
   }
 
   @tracked recentTransactions = [];

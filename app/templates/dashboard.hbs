@@ -1,3 +1,4 @@
+{{log this.trend}}
 <div class="dashboard-container">
   <div class="dashboard-header shadow-sm">
     <div class="header-content">
@@ -109,39 +110,28 @@
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Monthly Spending</span>
-          <p class="analytics-value montly-count-value">₹
-            0.00</p>
+          <p class="analytics-value montly-count-value">₹{{this.wallet.monthlyEx}} {{if (eq this.wallet.monthlyEx 0) '.00'}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Top Category</span>
-          <p class="analytics-value fw-bolder text-black fs-5">None</p>
+          <p class="analytics-value fw-bolder text-black fs-5">{{this.topCategory}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Trend</span>
           <p class="analytics-value">
-            <span style="color: green;">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-move-down-icon lucide-move-down"
-              ><path d="M8 18L12 22L16 18" /><path d="M12 2V22" /></svg>
+            <span style="color: {{this.trend.color}}">
+              <i class="fa-solid fa-arrow-{{this.trend.icon}} fs-5 mt-1" style="margin-right: 5px;"></i>
             </span>
 
             <span
-              class="analytic-trend-data fw-bolder text-black fs-5" 
+              class="fw-bolder fs-5" 
+              style="color: {{this.trend.color}}"
             >Savings</span></p>
         </div>
       </div>
     </div>
   </div>
-
+ 
   <div class="min-stat-container">
     <div class="min-stat-card">
       <div class="d-flex align-items-center">
@@ -181,6 +171,8 @@
         {{on "click" (fn this.transitionToRoute "wallet")}}
       >Manage Subscriptions</button>
     </div>
+
+   
 
     <div class="min-stat-card">
       <div class="d-flex align-items-center">
@@ -260,10 +252,10 @@
       </div>
       {{#if this.subscriptions.userSubscriptions.length}}
        <div class="subscription-list">
-          {{#each this.subscriptions.userSubscriptions as |subscription|}}
+          {{#each this.recentSubscriptions as |subscription|}}
             <div class="subscription-item">
               <div class="subscription-item-logo">
-                <div class="logo-placeholder">{{subscription.title.[0]}}</div>
+                <div class="logo-placeholder">{{get subscription.title "0"}}</div>
               </div>
               <div class="subscription-item-details">
                 <div class="subscription-item-name">{{subscription.title}}</div>

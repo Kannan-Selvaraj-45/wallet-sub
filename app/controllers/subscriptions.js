@@ -11,15 +11,34 @@ export default class SubscriptionsController extends Controller {
   @tracked showAddSubscriptionModal = false;
   @tracked showThreePlans = true;
   @tracked activeTab = 'all';
+  @tracked isEditing = false;
+  @tracked editingSubscriptionId = null;
+
+  @tracked searchQuery = '';
+
+  get filteredSubscriptions() {
+    if (this.subscriptions.userSubscriptions.length) {
+      let filtered = this.subscriptions.userSubscriptions.filter((sub) =>
+        sub.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
+      );
+      return filtered;
+    }
+  }
+
+  @action searchTitle(event) {
+    this.searchQuery = event.target.value;
+  }
 
   @tracked newSubscription = {};
+
+  @tracked allPlans = [...this.subscriptions.popularPlans];
 
   serviceClasses = {
     Netflix: 'netflix',
     Spotify: 'spotify',
     'Amazon Prime': 'amazon-prime',
     'Disney+': 'disney-plus',
-    'YouTube': 'youtube-premium',
+    YouTube: 'youtube-premium',
     'Apple Music': 'apple-music',
   };
 
@@ -27,7 +46,33 @@ export default class SubscriptionsController extends Controller {
     let [a, b, c] = [...this.subscriptions.popularPlans];
     return [a, b, c];
   }
-  @tracked allPlans = [...this.subscriptions.popularPlans];
+  get inactiveSubscriptions() {
+    const anyInactive = this.subscriptions.userSubscriptions.some(
+      (item) => !item.isActive,
+    );
+  }
+
+  @action nextDue(currDate, plan) {
+    let date = currDate;
+
+
+    if (plan === 'monthly') {
+      let nextMonth = new Date(date);
+      nextMonth.setMonth(date.getMonth() + 1);
+      return nextMonth.toISOString().split('T')[0];
+    } 
+    if (plan === 'quarterly') {
+      let nextThreeMonth = new Date(date);
+      nextThreeMonth.setMonth(date.getMonth() + 3);
+      return nextThreeMonth.toISOString().split('T')[0];
+    } 
+    else if (plan === 'yearly') {
+      let nextYear = new Date(date);
+      nextYear.setFullYear(nextYear.getFullYear()+1);
+      return nextYear.toISOString().split('T')[0];
+    }
+     
+  }
 
   @action
   toggleDiscover() {
@@ -81,57 +126,6 @@ export default class SubscriptionsController extends Controller {
   }
 
   @action
-  addSubscription() {
-    if (!this.newSubscription.title || !this.newSubscription.planPrice) {
-      return;
-    }
-
-    const newSub = {
-      id: Date.now(),
-      title: this.newSubscription.title,
-      plan: this.newSubscription.plan,
-      planCycle: this.newSubscription.planCycle,
-      planPrice: parseFloat(this.newSubscription.planPrice),
-      category: this.newSubscription.category,
-      paymentMethod: this.newSubscription.paymentMethod,
-      logo: this.newSubscription.title[0],
-      isActive: true,
-      startDate: new Date().toISOString(),
-      discount: this.newSubscription.discount,
-    };
-
-    if (this.wallet.balance > newSub.planPrice) {
-      this.subscriptions.userSubscriptions = [
-        ...this.subscriptions.userSubscriptions,
-        newSub,
-      ];
-
-      if (newSub.discount) {
-        this.subscriptions.totalDiscounts += newSub.discount;
-      }
-
-      let date = new Date().toISOString();
-
-      if (newSub.startDate >= date) {
-        this.subscriptions.activeSubscriptions += 1;
-      } else {
-        this.subscriptions.inActiveSubscriptions += 1;
-      }
-      this.wallet.balance -= newSub.planPrice;
-
-      this.wallet.calculateMonthlyExpense();
-
-      this.flashMessages.success('Subscribed successfully!');
-    } else {
-      this.flashMessages.info('Insufficient Balance!');
-      this.closeAddSubscriptionModal();
-    }
-
-    this.closeAddSubscriptionModal();
-    console.log(this.subscriptions.userSubscriptions);
-  }
-
-  @action
   updateSubscriptionName(event) {
     this.newSubscription.title = event.target.value;
   }
@@ -162,13 +156,91 @@ export default class SubscriptionsController extends Controller {
   }
 
   @action
-  discoverMore() {}
+  saveSubscription() {
+    if (!this.newSubscription.title || !this.newSubscription.planPrice) {
+      return;
+    }
+
+    if (this.isEditing) {
+      const updateSubscriptions = this.subscriptions.userSubscriptions.map(
+        (sub) => {
+          if (sub.id === this.editingSubscriptionId) {
+            return {
+              ...sub,
+              category: this.newSubscription.category,
+              paymentMethod: this.newSubscription.paymentMethod,
+              logo: this.newSubscription.title[0],
+              isActive: true,
+            };
+          }
+          return sub;
+        },
+      );
+      this.flashMessages.info('Subsription edited successfully!');
+      this.subscriptions.userSubscriptions = updateSubscriptions;
+      this.isEditing = false;
+      this.newSubscription = {};
+    } else {
+      let findSubscriptionExists = this.subscriptions.userSubscriptions.some(
+        (sub) => sub.title === this.newSubscription.title,
+      );
+      if (!findSubscriptionExists) {
+        const newSub = {
+          id: Date.now(),
+          title: this.newSubscription.title,
+          plan: this.newSubscription.plan,
+          planCycle: this.newSubscription.planCycle,
+          planPrice: parseFloat(this.newSubscription.planPrice),
+          category: this.newSubscription.category,
+          paymentMethod: this.newSubscription.paymentMethod,
+          logo: this.newSubscription.title[0],
+          isActive: true,
+          startDate: new Date().toISOString().split('T')[0],
+          discount: this.newSubscription.discount,
+          nextDue: this.nextDue(new Date(), this.newSubscription.planCycle),
+        };
+
+        if (this.wallet.balance > newSub.planPrice) {
+          this.subscriptions.userSubscriptions = [
+            ...this.subscriptions.userSubscriptions,
+            newSub,
+          ];
+
+          if (newSub.discount) {
+            this.subscriptions.totalDiscounts = parseFloat(
+              (this.subscriptions.totalDiscounts + newSub.discount).toFixed(2),
+            );
+          }
+
+          if (newSub.startDate >= new Date().toISOString().split('T')[0]) {
+            this.subscriptions.activeSubscriptions += 1;
+          } else {
+            this.subscriptions.inActiveSubscriptions += 1;
+          }
+          this.wallet.balance -= newSub.planPrice;
+
+          this.wallet.calculateMonthlyExpense();
+
+          this.newSubscription = {};
+
+          this.flashMessages.success('Subscribed successfully!');
+        } else {
+          this.flashMessages.info('Insufficient Balance!');
+          this.closeAddSubscriptionModal();
+        }
+      } else {
+        this.flashMessages.warning(
+          `${this.newSubscription.title} subscription already exists!`,
+        );
+      }
+    }
+    this.closeAddSubscriptionModal();
+  }
 
   @action
-  subscribe(serviceTitle,serviceCycle) {
-    console.log(serviceCycle)
+  subscribe(serviceTitle, serviceCycle) {
     const plan = this.subscriptions.popularPlans.find(
-      (p) => p.title === serviceTitle && p.planCycle===serviceCycle,
+      (p) => p.title === serviceTitle && p.planCycle === serviceCycle,
     );
     if (plan) {
       this.newSubscription = {
@@ -180,8 +252,52 @@ export default class SubscriptionsController extends Controller {
         paymentMethod: 'Wallet',
         logo: plan.title[0],
         discount: plan.discount,
+        startDate: new Date().toISOString().split('T')[0],
+        nextDue: this.nextDue(new Date()),
       };
       this.showAddSubscriptionModal = true;
+    }
+  }
+
+  @action
+  editSubscription(subscription) {
+    this.openEditModal(subscription);
+  }
+
+  @action
+  openEditModal(subscription) {
+    this.isEditing = true;
+    this.editingSubscriptionId = subscription.id;
+    this.newSubscription = {
+      title: subscription.title,
+      plan: 'Standard',
+      planCycle: subscription.planCycle,
+      planPrice: subscription.planPrice,
+      category: subscription.category,
+      paymentMethod: 'Wallet',
+      logo: subscription.title[0],
+      discount: subscription.discount,
+    };
+    this.showAddSubscriptionModal = true;
+  }
+
+  @action
+  deleteSubscription(subscription) {
+    this.subscriptions.userSubscriptions =
+      this.subscriptions.userSubscriptions.filter(
+        (sub) => sub.id !== subscription.id,
+      );
+    this.wallet.balance += subscription.planPrice;
+    this.wallet.calculateMonthlyExpense();
+    this.flashMessages.info('Subscription deleted!');
+
+    if (subscription.discount) {
+      this.subscriptions.totalDiscounts = parseFloat(
+        (this.subscriptions.totalDiscounts - subscription.discount).toFixed(2),
+      );
+    }
+    if (this.subscriptions.userSubscriptions.length >= 0) {
+      this.subscriptions.activeSubscriptions -= 1;
     }
   }
 }

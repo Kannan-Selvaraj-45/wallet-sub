@@ -395,7 +395,7 @@
   margin-bottom: 20px;
   padding-left: 12px;
 }
-.dashboard-stat-value span{
+.dashboard-stat-value span {
   margin-right: 10px !important;
   margin-left: 5px !important;
 }
@@ -434,15 +434,11 @@
   margin-bottom: 20px;
   padding-left: 12px;
 }
-.min-stat-value span{
-   
+.min-stat-value span {
   margin-right: 10px !important;
   margin-left: 5px !important;
+}
  
-}
-.analytic-trend-data{
-  color: green !important;
-}
 .min-stat-plan {
   font-size: 30px;
   letter-spacing: 0.5px;

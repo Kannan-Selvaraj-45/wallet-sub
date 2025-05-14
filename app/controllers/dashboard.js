@@ -7,6 +7,42 @@ export default class DashboardController extends Controller {
   @service wallet;
   @service subscriptions;
 
+  get recentSubscriptions() {
+    let latest = [...this.subscriptions.userSubscriptions].reverse();
+    if (latest.length < 3) {
+      return latest;
+    }
+    let [first, second, third] = latest;
+    return [first, second, third];
+  }
+
+  get trend() {
+    let monthlyIn = this.wallet.monthlyIn;
+    let fifteenOfMonthlyIn = (15 / 100) * monthlyIn;
+    if (this.subscriptions.totalDiscounts > fifteenOfMonthlyIn) {
+      return { color: 'green', icon: 'up' };
+    } else {
+      return { color: 'black', icon: 'down' };
+    }
+  }
+
+  get topCategory() {
+    if (this.subscriptions.userSubscriptions.length) {
+      let currCategoryPrice = this.subscriptions.userSubscriptions[0].planPrice;
+      let findCategory = this.subscriptions.userSubscriptions.find(
+        (sub) => sub.planPrice > currCategoryPrice,
+      );
+      if(findCategory){
+         
+        return (findCategory.category);
+      }
+        return (this.subscriptions.userSubscriptions[0].category) ;
+    }else{
+      return 'None'
+    }
+  
+  }
+
   offers = [
     {
       title: 'Netflix',

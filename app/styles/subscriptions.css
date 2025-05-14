@@ -167,7 +167,6 @@
 .service-logo img {
   width: 36px;
   height: 36px;
-  
 }
 .logo-placeholder {
   width: 100%;
@@ -225,7 +224,7 @@
   align-items: center;
   margin-bottom: 0px;
 }
-.actual-price{
+.actual-price {
   align-self: flex-end;
   color: #999999;
 }
@@ -800,7 +799,7 @@ select {
   max-width: 400px;
   line-height: 1.5;
 }
-.add-first-btn{
+.add-first-btn {
   background-color: #7e57c2;
   color: #ffffff;
   border: none;
@@ -811,9 +810,29 @@ select {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: background-color .2s ease;
+  transition: background-color 0.2s ease;
 }
 
-.add-first-btn:hover{
+.add-first-btn:hover {
   background-color: #4d2c91;
+}
+.subscription-start-date{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 5px;
+}
+.disabled-date{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #7e57c2;
+  border: none;
+}
+.start-date{
+  margin-left: 5px;
+  font-size: 12px;
+  color: #999999;
 }

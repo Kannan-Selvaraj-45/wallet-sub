@@ -8,7 +8,6 @@ export default class WalletController extends Controller {
   @service router;
   @service flashMessages;
   @tracked activeTab = 'overview';
-   
 
   @action
   transitionToRoute() {
