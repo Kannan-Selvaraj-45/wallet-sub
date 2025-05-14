@@ -8,12 +8,13 @@ export default class WalletController extends Controller {
   @service router;
   @service flashMessages;
   @tracked activeTab = 'overview';
+   
 
   @action
-  transitionToRoute(){
-    this.router.transitionTo('dashboard')
+  transitionToRoute() {
+    this.router.transitionTo('dashboard');
   }
-  
+
   get positiveIn() {
     return this.wallet.monthlyIn > 0;
   }
@@ -28,12 +29,12 @@ export default class WalletController extends Controller {
 
   get isValidAmount() {
     const amount = parseFloat(this.wallet.amount);
-   
+
     return !isNaN(amount) && amount > 0;
   }
 
   @action
-   removeFlashMessage(flash) {
+  removeFlashMessage(flash) {
     this.flashMessages.queue = this.flashMessages.queue.filter(
       (msg) => msg !== flash,
     );

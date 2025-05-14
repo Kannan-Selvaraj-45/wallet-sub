@@ -32,7 +32,7 @@
   font-size: 26px;
   letter-spacing: 0.5px;
   font-weight: bold;
-  background: linear-gradient(90deg, #4f5b7e, #6e59a5, #9b87f5);
+  background: linear-gradient(90deg, #7e57c2, #4d2c91);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -149,8 +149,6 @@
 .support-link:hover {
   text-decoration: underline;
 }
-
- 
 
 .text-label,
 .brand,

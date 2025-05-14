@@ -1,5 +1,5 @@
 <div class="dashboard-container">
-  <div class="dashboard-header">
+  <div class="dashboard-header shadow-sm">
     <div class="header-content">
       <h1>Welcome Kannan,</h1>
       <p>Manage all your subscriptions in one place. Track spending, set
@@ -7,7 +7,7 @@
     </div>
     <div class="header-actions">
       <button
-        class="wallet-btn"
+        class="wallet-btn shadow "
         type="button"
         {{on "click" (fn this.transitionToRoute "wallet")}}
       >
@@ -28,7 +28,7 @@
         <p>Manage Wallet</p>
       </button>
       <button
-        class="add-btn"
+        class="add-money-btn shadow-sm"
         type="button"
         {{on "click" (fn this.transitionToRoute "subscriptions")}}
       >
@@ -71,7 +71,8 @@
         </div>
         <h2 class="dashboard-stat-title pt-2">Wallet Balance</h2>
       </div>
-      <div class="dashboard-stat-value"><span
+      <div class="dashboard-stat-value">
+        <span
           style={{if this.positiveIn "color:#7036e7;"}}
         >₹</span>{{this.wallet.balance}}.00</div>
       <button
@@ -104,7 +105,7 @@
       <div class="analytics-container">
         <div class="analytics-card">
           <span class="analytics-title">Active Subscriptions</span>
-          <p class="analytics-value subscription-count-value">0</p>
+          <p class="analytics-value subscription-count-value">{{this.subscriptions.activeSubscriptions}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Monthly Spending</span>
@@ -134,7 +135,7 @@
             </span>
 
             <span
-              class="analytic-trend-data fw-bolder text-black fs-5"
+              class="analytic-trend-data fw-bolder text-black fs-5" 
             >Savings</span></p>
         </div>
       </div>
@@ -171,9 +172,9 @@
             /></svg>
         </div>
 
-        <h3 class="dashboard-stat-title pt-2">Subscriptions</h3>
+        <h3 class="dashboard-stat-title pt-2">Total Subscriptions</h3>
       </div>
-      <div class="min-stat-value">0</div>
+      <div class="min-stat-value">{{this.subscriptions.userSubscriptions.length}}</div>
       <button
         class="btn btn-light btn-block"
         type="button"
@@ -202,11 +203,11 @@
             /></svg>
         </div>
 
-        <h3 class="dashboard-stat-title pt-2">Savings from discounts</h3>
+        <h3 class="dashboard-stat-title pt-2">Savings from offers</h3>
       </div>
       <div class="min-stat-value"><span
           style={{if this.positiveIn "color:#7036e7;"}}
-        >₹</span>0.00</div>
+        >₹</span>{{this.subscriptions.totalDiscounts}}</div>
       <button
         class="btn btn-light btn-block"
         type="button"
@@ -257,6 +258,27 @@
         >View All
           <i class="fas fa-arrow-right"></i></a>
       </div>
+      {{#if this.subscriptions.userSubscriptions.length}}
+       <div class="subscription-list">
+          {{#each this.subscriptions.userSubscriptions as |subscription|}}
+            <div class="subscription-item">
+              <div class="subscription-item-logo">
+                <div class="logo-placeholder">{{subscription.title.[0]}}</div>
+              </div>
+              <div class="subscription-item-details">
+                <div class="subscription-item-name">{{subscription.title}}</div>
+                <div
+                  class="subscription-item-category"
+                >{{subscription.category}}</div>
+              </div>
+              <div class="subscription-item-price">
+                <div class="price">₹{{subscription.planPrice}}</div>
+                <div class="billing-cycle">/{{subscription.planCycle}}</div>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+        {{else}}
       <div class="empty-state">
         <div class="empty-icon">
           <i class="fas fa-calendar"></i>
@@ -271,6 +293,7 @@
           Add Subscription
         </button>
       </div>
+      {{/if}}
     </div>
 
     <div class="section-card">

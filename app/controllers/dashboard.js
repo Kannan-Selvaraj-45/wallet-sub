@@ -5,12 +5,13 @@ import { inject as service } from '@ember/service';
 export default class DashboardController extends Controller {
   @service router;
   @service wallet;
+  @service subscriptions;
 
   offers = [
     {
       title: 'Netflix',
       plan: 'Netflix Premium Plan',
-      devices: 'Watch on 4 devices simultaneously in Ultra HD',
+      devices: 'Watch on 4 devices simultaneously in Ultra HD.',
       offerPrice: 699,
       actualPrice: 799,
       image:
@@ -20,7 +21,7 @@ export default class DashboardController extends Controller {
     {
       title: 'Spotify',
       plan: 'Spotify Family',
-      devices: 'Premium for up to 6 family members living under one roof',
+      devices: 'Premium for up to 6 family members living under one roof.',
       offerPrice: 199,
       actualPrice: '',
       image:
@@ -30,7 +31,7 @@ export default class DashboardController extends Controller {
     {
       title: 'Youtube',
       plan: 'Youtube Premium',
-      devices: 'Ad-free videos, background play & downloads',
+      devices: 'Ad-free videos, background play & downloads.',
       offerPrice: 129,
       actualPrice: '',
       image:
@@ -39,10 +40,9 @@ export default class DashboardController extends Controller {
     },
   ];
 
-   get positiveIn() {
+  get positiveIn() {
     return this.wallet.monthlyIn > 0;
   }
-
 
   @action
   transitionToRoute(route) {
