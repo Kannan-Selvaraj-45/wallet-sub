@@ -200,8 +200,10 @@ export default class SubscriptionsController extends Controller {
         (sub) => {
           if (sub.id === this.editingSubscriptionId) {
             if (sub.isOffer) {
-              this.flashMessages.danger('Offer Subscriptions can not be edited!')
-              return sub ;
+              this.flashMessages.danger(
+                'Offer Subscriptions can not be edited!',
+              );
+              return sub;
             }
             this.flashMessages.info('Subsription edited successfully!');
             return {
@@ -215,12 +217,11 @@ export default class SubscriptionsController extends Controller {
               isOffer: this.newSubscription.isOffer,
             };
           }
-      
+
           return sub;
         },
       );
 
-      
       this.subscriptions.userSubscriptions = updateSubscriptions;
       this.wallet.balance -= this.newSubscription.planPrice;
 

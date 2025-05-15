@@ -14,8 +14,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 249,
       planCycle: 'monthly',
       discount: 49.8,
-      plan:'Family',
-      isOffer:true
+      plan: 'Family',
+      isOffer: true,
     },
     {
       id: 2,
@@ -28,9 +28,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 119,
       planCycle: 'monthly',
       discount: 119,
-      plan:'Standard',
-      isOffer:true
-
+      plan: 'Standard',
+      isOffer: true,
     },
     {
       id: 3,
@@ -43,10 +42,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 2499,
       planCycle: 'yearly',
       discount: 500,
-      plan:'Premium',
-      isOffer:true
-
-
+      plan: 'Premium',
+      isOffer: true,
     },
     {
       id: 4,
@@ -58,9 +55,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 699,
       planCycle: 'monthly',
       discount: 69.9,
-      plan:'Standard',
-      isOffer:true
-
+      plan: 'Standard',
+      isOffer: true,
     },
     {
       id: 5,
@@ -72,10 +68,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 1299,
       planCycle: 'quarterly',
       discount: 649.5,
-      plan:'Family',
-      isOffer:true
-
-
+      plan: 'Family',
+      isOffer: true,
     },
     {
       id: 6,
@@ -87,10 +81,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 1499,
       planCycle: 'quarterly',
       discount: 1499,
-      plan:'Standard',
-      isOffer:true
-
-
+      plan: 'Standard',
+      isOffer: true,
     },
   ];
 
@@ -159,18 +151,15 @@ export default class SubscriptionsService extends Service {
             quarterly: 749,
             yearly: 1499,
           },
-          
         },
         {
-           
           planName: 'Family',
           price: {
             monthly: 499,
             quarterly: 999,
             yearly: 1499,
           },
-        }
-        
+        },
       ],
       category: 'Music',
     },
@@ -198,18 +187,17 @@ export default class SubscriptionsService extends Service {
           price: {
             monthly: 299,
             quarterly: 749,
-            yearly: 1499,
+            yearly: 1999,
           },
         },
-         {
-           
+        {
           planName: 'Family',
           price: {
             monthly: 999,
             quarterly: 1499,
             yearly: 3499,
           },
-        }
+        },
       ],
       category: 'Entertainment',
     },
@@ -227,28 +215,27 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Standard',
           price: {
-            monthly: 149,
-            quarterly: 299,
-            yearly: 799,
+            monthly: 629,
+            quarterly: 1299,
+            yearly: 3799,
           },
         },
         {
           planName: 'Premium',
           price: {
-            monthly: 299,
-            quarterly: 749,
-            yearly: 1299,
+            monthly: 999,
+            quarterly: 1699,
+            yearly: 3299,
           },
         },
-         {
-           
+        {
           planName: 'Family',
           price: {
             monthly: 999,
             quarterly: 1499,
             yearly: 2999,
           },
-        }
+        },
       ],
       category: 'Music',
     },
@@ -279,15 +266,14 @@ export default class SubscriptionsService extends Service {
             yearly: 1499,
           },
         },
-         {
-           
+        {
           planName: 'Family',
           price: {
             monthly: 999,
-            quarterly: 1699,
+            quarterly: 649.5,
             yearly: 2999,
           },
-        }
+        },
       ],
       category: 'Entertainment',
     },
@@ -306,7 +292,7 @@ export default class SubscriptionsService extends Service {
           planName: 'Standard',
           price: {
             monthly: 199,
-            quarterly: 499,
+            quarterly: 1,
             yearly: 799,
           },
         },
@@ -318,18 +304,16 @@ export default class SubscriptionsService extends Service {
             yearly: 1499,
           },
         },
-         {
-           
+        {
           planName: 'Family',
           price: {
             monthly: 999,
             quarterly: 1999,
             yearly: 2499,
           },
-        }
+        },
       ],
-      category:'Entertainment'
-
+      category: 'Entertainment',
     },
   ];
 

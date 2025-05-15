@@ -241,12 +241,16 @@
     </div>
     <h2>Your Subscriptions</h2>
   </div>
- 
- {{#if this.showAddSubscriptionModal}}
+
+  {{#if this.showAddSubscriptionModal}}
     <div class="modal-overlay">
       <div class="modal-container">
         <div class="modal-header">
-          <h2>{{if this.isEditing "Edit your Subscription" "Add New Subscription"}}</h2>
+          <h2>{{if
+              this.isEditing
+              "Edit your Subscription"
+              "Add New Subscription"
+            }}</h2>
           <button
             class="close-btn"
             type="button"
@@ -264,7 +268,6 @@
               placeholder="Netflix, Spotify, etc."
               value={{this.newSubscription.title}}
               {{on "input" this.updateSubscriptionName}}
-              
             />
           </div>
           <div class="form-row">
@@ -275,14 +278,25 @@
                   id="subscription-plan"
                   value={{this.newSubscription.plan}}
                   {{on "change" this.updateSubscriptionPlan}}
-                  
                 >
-                <option >Select Plan</option>
+                  <option>Select Plan</option>
 
-                  <option value="Standard" selected={{eq this.newSubscription.plan "Standard"}}>Standard</option>
-                  <option value="Premium" selected={{eq this.newSubscription.plan "Premium"}}>Premium</option>
-                  <option value="Basic" selected={{eq this.newSubscription.plan "Basic"}}>Basic</option>
-                  <option value="Family" selected={{eq this.newSubscription.plan "Family"}}>Family</option>
+                  <option
+                    value="Standard"
+                    selected={{eq this.newSubscription.plan "Standard"}}
+                  >Standard</option>
+                  <option
+                    value="Premium"
+                    selected={{eq this.newSubscription.plan "Premium"}}
+                  >Premium</option>
+                  <option
+                    value="Basic"
+                    selected={{eq this.newSubscription.plan "Basic"}}
+                  >Basic</option>
+                  <option
+                    value="Family"
+                    selected={{eq this.newSubscription.plan "Family"}}
+                  >Family</option>
                 </select>
                 <i class="fas fa-chevron-down"></i>
               </div>
@@ -295,9 +309,8 @@
                   id="billing-cycle"
                   value={{this.newSubscription.planCycle}}
                   {{on "change" this.updateBillingCycle}}
-                  
                 >
-                <option >Select Billing Cycle</option>
+                  <option>Select Billing Cycle</option>
 
                   <option
                     value="monthly"
@@ -320,7 +333,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="form-row">
             <div class="form-group">
               <label for="amount">Amount (₹)</label>
@@ -330,7 +343,7 @@
                 placeholder={{this.amountPaid}}
                 value={{this.amountPaid}}
                 {{on "input" this.updateAmount}}
-                 disabled={{this.isEditing}}
+                disabled={{this.isEditing}}
               />
             </div>
 
@@ -341,16 +354,39 @@
                   id="category"
                   value={{this.newSubscription.category}}
                   {{on "change" this.updateCategory}}
-                   
                 >
-                <option>Select category</option>
-                  <option value="Entertainment" selected={{eq this.newSubscription.category "Entertainment"}}>Entertainment</option>
-                  <option value="Music" selected={{eq this.newSubscription.category "Music"}}>Music</option>
-                  <option value="Productivity" selected={{eq this.newSubscription.category "Productivity"}}>Productivity</option>
-                  <option value="Utilities" selected={{eq this.newSubscription.category "Utilities"}}>Utilities</option>
-                  <option value="Health" selected={{eq this.newSubscription.category "Health"}}>Health</option>
-                  <option value="Education" selected={{eq this.newSubscription.category "Education"}}>Education</option>
-                  <option value="Other" selected={{eq this.newSubscription.category "Other"}}>Other</option>
+                  <option>Select category</option>
+                  <option
+                    value="Entertainment"
+                    selected={{eq
+                      this.newSubscription.category
+                      "Entertainment"
+                    }}
+                  >Entertainment</option>
+                  <option
+                    value="Music"
+                    selected={{eq this.newSubscription.category "Music"}}
+                  >Music</option>
+                  <option
+                    value="Productivity"
+                    selected={{eq this.newSubscription.category "Productivity"}}
+                  >Productivity</option>
+                  <option
+                    value="Utilities"
+                    selected={{eq this.newSubscription.category "Utilities"}}
+                  >Utilities</option>
+                  <option
+                    value="Health"
+                    selected={{eq this.newSubscription.category "Health"}}
+                  >Health</option>
+                  <option
+                    value="Education"
+                    selected={{eq this.newSubscription.category "Education"}}
+                  >Education</option>
+                  <option
+                    value="Other"
+                    selected={{eq this.newSubscription.category "Other"}}
+                  >Other</option>
                 </select>
                 <i class="fas fa-chevron-down"></i>
               </div>
