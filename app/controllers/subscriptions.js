@@ -192,10 +192,13 @@ export default class SubscriptionsController extends Controller {
   @action
   saveSubscription() {
     if (!this.newSubscription.title || !this.newSubscription.planPrice) {
+       this.showAddSubscriptionModal=false
+      this.flashMessages.warning('Fill the fields before submission!')
       return;
     }
 
     if (this.isEditing) {
+           
       const updateSubscriptions = this.subscriptions.userSubscriptions.map(
         (sub) => {
           if (sub.id === this.editingSubscriptionId) {
@@ -205,6 +208,9 @@ export default class SubscriptionsController extends Controller {
               );
               return sub;
             }
+
+            this.wallet.balance+=sub.planPrice;
+            this.wallet.balance-=this.newSubscription.planPrice;
             this.flashMessages.info('Subsription edited successfully!');
             return {
               ...sub,
@@ -223,8 +229,8 @@ export default class SubscriptionsController extends Controller {
       );
 
       this.subscriptions.userSubscriptions = updateSubscriptions;
-      this.wallet.balance -= this.newSubscription.planPrice;
-
+      
+      this.wallet.calculateMonthlyExpense();
       this.isEditing = false;
       this.newSubscription = {};
       this.subscriptions.paidPrice = 0;
@@ -232,6 +238,7 @@ export default class SubscriptionsController extends Controller {
       let findSubscriptionExists = this.subscriptions.userSubscriptions.some(
         (sub) => sub.title === this.newSubscription.title,
       );
+       
       if (!findSubscriptionExists) {
         const newSub = {
           id: Date.now(),
@@ -285,6 +292,7 @@ export default class SubscriptionsController extends Controller {
         );
       }
     }
+
     this.closeAddSubscriptionModal();
   }
 
@@ -314,8 +322,6 @@ export default class SubscriptionsController extends Controller {
 
   @action
   editSubscription(subscription) {
-    this.wallet.balance += subscription.planPrice;
-
     this.openEditModal(subscription);
   }
 
