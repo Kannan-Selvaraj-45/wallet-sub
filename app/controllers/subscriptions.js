@@ -14,6 +14,10 @@ export default class SubscriptionsController extends Controller {
   @tracked isEditing = false;
   @tracked editingSubscriptionId = null;
 
+  @tracked newSubscription = {};
+
+  @tracked allPlans = [...this.subscriptions.popularPlans];
+
   @tracked searchQuery = '';
 
   get filteredSubscriptions() {
@@ -25,13 +29,21 @@ export default class SubscriptionsController extends Controller {
     }
   }
 
+  get amountPaid() {
+    if (this.subscriptions.paidPrice) {
+      return this.subscriptions.paidPrice;
+    } else {
+      if (this.newSubscription.planPrice > 0) {
+        return this.newSubscription.planPrice;
+      } else {
+        return 0;
+      }
+    }
+  }
+
   @action searchTitle(event) {
     this.searchQuery = event.target.value;
   }
-
-  @tracked newSubscription = {};
-
-  @tracked allPlans = [...this.subscriptions.popularPlans];
 
   serviceClasses = {
     Netflix: 'netflix',
@@ -55,23 +67,20 @@ export default class SubscriptionsController extends Controller {
   @action nextDue(currDate, plan) {
     let date = currDate;
 
-
     if (plan === 'monthly') {
       let nextMonth = new Date(date);
       nextMonth.setMonth(date.getMonth() + 1);
       return nextMonth.toISOString().split('T')[0];
-    } 
+    }
     if (plan === 'quarterly') {
       let nextThreeMonth = new Date(date);
       nextThreeMonth.setMonth(date.getMonth() + 3);
       return nextThreeMonth.toISOString().split('T')[0];
-    } 
-    else if (plan === 'yearly') {
+    } else if (plan === 'yearly') {
       let nextYear = new Date(date);
-      nextYear.setFullYear(nextYear.getFullYear()+1);
+      nextYear.setFullYear(nextYear.getFullYear() + 1);
       return nextYear.toISOString().split('T')[0];
     }
-     
   }
 
   @action
@@ -89,6 +98,26 @@ export default class SubscriptionsController extends Controller {
     this.flashMessages.queue = this.flashMessages.queue.filter(
       (msg) => msg !== flash,
     );
+  }
+
+  autoFillAmount() {
+    let { title, plan, planCycle } = this.newSubscription;
+    if (title) {
+      let matchedService = this.subscriptions.subsPlans.find(
+        (s) =>
+          s.service.split(' ')[0].toLowerCase() ===
+          title.split(' ')[0].toLowerCase(),
+      );
+
+      if (matchedService) {
+        let matchedPlan = matchedService.plans.find((p) => p.planName === plan);
+
+        if (matchedPlan && matchedPlan.price[planCycle]) {
+          this.newSubscription.planPrice = matchedPlan.price[planCycle];
+          this.subscriptions.paidPrice = matchedPlan.price[planCycle];
+        }
+      }
+    }
   }
 
   get isAllActive() {
@@ -123,21 +152,26 @@ export default class SubscriptionsController extends Controller {
   @action
   closeAddSubscriptionModal() {
     this.showAddSubscriptionModal = false;
+    this.isEditing = false;
+    this.newSubscription = {};
   }
 
   @action
   updateSubscriptionName(event) {
     this.newSubscription.title = event.target.value;
+    this.autoFillAmount();
   }
 
   @action
   updateSubscriptionPlan(event) {
     this.newSubscription.plan = event.target.value;
+    this.autoFillAmount();
   }
 
   @action
   updateBillingCycle(event) {
     this.newSubscription.planCycle = event.target.value;
+    this.autoFillAmount();
   }
 
   @action
@@ -165,21 +199,34 @@ export default class SubscriptionsController extends Controller {
       const updateSubscriptions = this.subscriptions.userSubscriptions.map(
         (sub) => {
           if (sub.id === this.editingSubscriptionId) {
+            if (sub.isOffer) {
+              this.flashMessages.danger('Offer Subscriptions can not be edited!')
+              return sub ;
+            }
+            this.flashMessages.info('Subsription edited successfully!');
             return {
               ...sub,
+              planPrice: this.newSubscription.planPrice,
               category: this.newSubscription.category,
               paymentMethod: this.newSubscription.paymentMethod,
               logo: this.newSubscription.title[0],
               isActive: true,
+              offerPlan: this.newSubscription.offerPlan,
+              isOffer: this.newSubscription.isOffer,
             };
           }
+      
           return sub;
         },
       );
-      this.flashMessages.info('Subsription edited successfully!');
+
+      
       this.subscriptions.userSubscriptions = updateSubscriptions;
+      this.wallet.balance -= this.newSubscription.planPrice;
+
       this.isEditing = false;
       this.newSubscription = {};
+      this.subscriptions.paidPrice = 0;
     } else {
       let findSubscriptionExists = this.subscriptions.userSubscriptions.some(
         (sub) => sub.title === this.newSubscription.title,
@@ -198,6 +245,7 @@ export default class SubscriptionsController extends Controller {
           startDate: new Date().toISOString().split('T')[0],
           discount: this.newSubscription.discount,
           nextDue: this.nextDue(new Date(), this.newSubscription.planCycle),
+          isOffer: this.newSubscription.isOffer,
         };
 
         if (this.wallet.balance > newSub.planPrice) {
@@ -207,9 +255,8 @@ export default class SubscriptionsController extends Controller {
           ];
 
           if (newSub.discount) {
-            this.subscriptions.totalDiscounts = parseFloat(
-              (this.subscriptions.totalDiscounts + newSub.discount).toFixed(2),
-            );
+            this.subscriptions.totalDiscounts =
+              this.subscriptions.totalDiscounts + newSub.discount;
           }
 
           if (newSub.startDate >= new Date().toISOString().split('T')[0]) {
@@ -222,6 +269,9 @@ export default class SubscriptionsController extends Controller {
           this.wallet.calculateMonthlyExpense();
 
           this.newSubscription = {};
+
+          this.categoryToBeSelected = '';
+          this.subscriptions.paidPrice = 0;
 
           this.flashMessages.success('Subscribed successfully!');
         } else {
@@ -245,7 +295,7 @@ export default class SubscriptionsController extends Controller {
     if (plan) {
       this.newSubscription = {
         title: plan.title,
-        plan: 'Standard',
+        plan: plan.plan,
         planCycle: plan.planCycle,
         planPrice: plan.planPrice,
         category: plan.category,
@@ -254,13 +304,17 @@ export default class SubscriptionsController extends Controller {
         discount: plan.discount,
         startDate: new Date().toISOString().split('T')[0],
         nextDue: this.nextDue(new Date()),
+        isOffer: plan.isOffer,
       };
+
       this.showAddSubscriptionModal = true;
     }
   }
 
   @action
   editSubscription(subscription) {
+    this.wallet.balance += subscription.planPrice;
+
     this.openEditModal(subscription);
   }
 
@@ -270,7 +324,7 @@ export default class SubscriptionsController extends Controller {
     this.editingSubscriptionId = subscription.id;
     this.newSubscription = {
       title: subscription.title,
-      plan: 'Standard',
+      plan: subscription.plan,
       planCycle: subscription.planCycle,
       planPrice: subscription.planPrice,
       category: subscription.category,
@@ -278,6 +332,8 @@ export default class SubscriptionsController extends Controller {
       logo: subscription.title[0],
       discount: subscription.discount,
     };
+    this.autoFillAmount();
+
     this.showAddSubscriptionModal = true;
   }
 
@@ -292,9 +348,11 @@ export default class SubscriptionsController extends Controller {
     this.flashMessages.info('Subscription deleted!');
 
     if (subscription.discount) {
-      this.subscriptions.totalDiscounts = parseFloat(
-        (this.subscriptions.totalDiscounts - subscription.discount).toFixed(2),
-      );
+      this.subscriptions.totalDiscounts =
+        this.subscriptions.totalDiscounts - subscription.discount;
+      if (this.subscriptions.totalDiscounts < 0) {
+        this.subscriptions.totalDiscounts = 0;
+      }
     }
     if (this.subscriptions.userSubscriptions.length >= 0) {
       this.subscriptions.activeSubscriptions -= 1;

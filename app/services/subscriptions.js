@@ -14,6 +14,8 @@ export default class SubscriptionsService extends Service {
       actualPrice: 249,
       planCycle: 'monthly',
       discount: 49.8,
+      plan:'Family',
+      isOffer:true
     },
     {
       id: 2,
@@ -26,6 +28,9 @@ export default class SubscriptionsService extends Service {
       actualPrice: 119,
       planCycle: 'monthly',
       discount: 119,
+      plan:'Standard',
+      isOffer:true
+
     },
     {
       id: 3,
@@ -38,6 +43,10 @@ export default class SubscriptionsService extends Service {
       actualPrice: 2499,
       planCycle: 'yearly',
       discount: 500,
+      plan:'Premium',
+      isOffer:true
+
+
     },
     {
       id: 4,
@@ -49,6 +58,9 @@ export default class SubscriptionsService extends Service {
       actualPrice: 699,
       planCycle: 'monthly',
       discount: 69.9,
+      plan:'Standard',
+      isOffer:true
+
     },
     {
       id: 5,
@@ -60,6 +72,10 @@ export default class SubscriptionsService extends Service {
       actualPrice: 1299,
       planCycle: 'quarterly',
       discount: 649.5,
+      plan:'Family',
+      isOffer:true
+
+
     },
     {
       id: 6,
@@ -71,6 +87,249 @@ export default class SubscriptionsService extends Service {
       actualPrice: 1499,
       planCycle: 'quarterly',
       discount: 1499,
+      plan:'Standard',
+      isOffer:true
+
+
+    },
+  ];
+
+  subsPlans = [
+    {
+      service: 'Netflix',
+      plans: [
+        {
+          planName: 'Basic',
+          price: {
+            monthly: 199,
+            quarterly: 599,
+            yearly: 1299,
+          },
+        },
+        {
+          planName: 'Standard',
+          price: {
+            monthly: 199,
+            quarterly: 699,
+            yearly: 1399,
+          },
+        },
+        {
+          planName: 'Premium',
+          price: {
+            monthly: 299,
+            quarterly: 749,
+            yearly: 1499,
+          },
+        },
+        {
+          planName: 'Family',
+          price: {
+            monthly: 199,
+            quarterly: 1499,
+            yearly: 2499,
+          },
+        },
+      ],
+      category: 'Entertainment',
+    },
+    {
+      service: 'Spotify',
+      plans: [
+        {
+          planName: 'Basic',
+          price: {
+            monthly: 49,
+            quarterly: 149,
+            yearly: 499,
+          },
+        },
+        {
+          planName: 'Standard',
+          price: {
+            monthly: 119,
+            quarterly: 299,
+            yearly: 799,
+          },
+        },
+        {
+          planName: 'Premium',
+          price: {
+            monthly: 299,
+            quarterly: 749,
+            yearly: 1499,
+          },
+          
+        },
+        {
+           
+          planName: 'Family',
+          price: {
+            monthly: 499,
+            quarterly: 999,
+            yearly: 1499,
+          },
+        }
+        
+      ],
+      category: 'Music',
+    },
+    {
+      service: 'Amazon',
+      plans: [
+        {
+          planName: 'Basic',
+          price: {
+            monthly: 149,
+            quarterly: 199,
+            yearly: 399,
+          },
+        },
+        {
+          planName: 'Standard',
+          price: {
+            monthly: 199,
+            quarterly: 499,
+            yearly: 799,
+          },
+        },
+        {
+          planName: 'Premium',
+          price: {
+            monthly: 299,
+            quarterly: 749,
+            yearly: 1499,
+          },
+        },
+         {
+           
+          planName: 'Family',
+          price: {
+            monthly: 999,
+            quarterly: 1499,
+            yearly: 3499,
+          },
+        }
+      ],
+      category: 'Entertainment',
+    },
+    {
+      service: 'Apple Music',
+      plans: [
+        {
+          planName: 'Basic',
+          price: {
+            monthly: 99,
+            quarterly: 199,
+            yearly: 599,
+          },
+        },
+        {
+          planName: 'Standard',
+          price: {
+            monthly: 149,
+            quarterly: 299,
+            yearly: 799,
+          },
+        },
+        {
+          planName: 'Premium',
+          price: {
+            monthly: 299,
+            quarterly: 749,
+            yearly: 1299,
+          },
+        },
+         {
+           
+          planName: 'Family',
+          price: {
+            monthly: 999,
+            quarterly: 1499,
+            yearly: 2999,
+          },
+        }
+      ],
+      category: 'Music',
+    },
+    {
+      service: 'Disney+',
+      plans: [
+        {
+          planName: 'Basic',
+          price: {
+            monthly: 149,
+            quarterly: 199,
+            yearly: 399,
+          },
+        },
+        {
+          planName: 'Standard',
+          price: {
+            monthly: 199,
+            quarterly: 499,
+            yearly: 799,
+          },
+        },
+        {
+          planName: 'Premium',
+          price: {
+            monthly: 299,
+            quarterly: 749,
+            yearly: 1499,
+          },
+        },
+         {
+           
+          planName: 'Family',
+          price: {
+            monthly: 999,
+            quarterly: 1699,
+            yearly: 2999,
+          },
+        }
+      ],
+      category: 'Entertainment',
+    },
+    {
+      service: 'Youtube Premimum',
+      plans: [
+        {
+          planName: 'Basic',
+          price: {
+            monthly: 149,
+            quarterly: 199,
+            yearly: 399,
+          },
+        },
+        {
+          planName: 'Standard',
+          price: {
+            monthly: 199,
+            quarterly: 499,
+            yearly: 799,
+          },
+        },
+        {
+          planName: 'Premium',
+          price: {
+            monthly: 299,
+            quarterly: 749,
+            yearly: 1499,
+          },
+        },
+         {
+           
+          planName: 'Family',
+          price: {
+            monthly: 999,
+            quarterly: 1999,
+            yearly: 2499,
+          },
+        }
+      ],
+      category:'Entertainment'
+
     },
   ];
 
@@ -78,4 +337,6 @@ export default class SubscriptionsService extends Service {
   @tracked activeSubscriptions = 0;
   @tracked inActiveSubscriptions = 0;
   @tracked totalDiscounts = 0;
+
+  @tracked paidPrice = 0;
 }

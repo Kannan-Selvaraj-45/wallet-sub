@@ -241,12 +241,12 @@
     </div>
     <h2>Your Subscriptions</h2>
   </div>
-
-  {{#if this.showAddSubscriptionModal}}
+ 
+ {{#if this.showAddSubscriptionModal}}
     <div class="modal-overlay">
       <div class="modal-container">
         <div class="modal-header">
-          <h2>Add New Subscription</h2>
+          <h2>{{if this.isEditing "Edit your Subscription" "Add New Subscription"}}</h2>
           <button
             class="close-btn"
             type="button"
@@ -264,7 +264,7 @@
               placeholder="Netflix, Spotify, etc."
               value={{this.newSubscription.title}}
               {{on "input" this.updateSubscriptionName}}
-              disabled={{this.isEditing}}
+              
             />
           </div>
           <div class="form-row">
@@ -275,12 +275,14 @@
                   id="subscription-plan"
                   value={{this.newSubscription.plan}}
                   {{on "change" this.updateSubscriptionPlan}}
-                  disabled={{this.isEditing}}
+                  
                 >
-                  <option value="Standard">Standard</option>
-                  <option value="Premium">Premium</option>
-                  <option value="Basic">Basic</option>
-                  <option value="Family">Family</option>
+                <option >Select Plan</option>
+
+                  <option value="Standard" selected={{eq this.newSubscription.plan "Standard"}}>Standard</option>
+                  <option value="Premium" selected={{eq this.newSubscription.plan "Premium"}}>Premium</option>
+                  <option value="Basic" selected={{eq this.newSubscription.plan "Basic"}}>Basic</option>
+                  <option value="Family" selected={{eq this.newSubscription.plan "Family"}}>Family</option>
                 </select>
                 <i class="fas fa-chevron-down"></i>
               </div>
@@ -293,8 +295,10 @@
                   id="billing-cycle"
                   value={{this.newSubscription.planCycle}}
                   {{on "change" this.updateBillingCycle}}
-                  disabled={{this.isEditing}}
+                  
                 >
+                <option >Select Billing Cycle</option>
+
                   <option
                     value="monthly"
                     selected={{eq this.newSubscription.planCycle "monthly"}}
@@ -316,16 +320,17 @@
               </div>
             </div>
           </div>
+          
           <div class="form-row">
             <div class="form-group">
               <label for="amount">Amount (₹)</label>
               <input
                 type="number"
                 id="amount"
-                placeholder="0.00"
-                value={{this.newSubscription.planPrice}}
+                placeholder={{this.amountPaid}}
+                value={{this.amountPaid}}
                 {{on "input" this.updateAmount}}
-                disabled={{this.isEditing}}
+                 disabled={{this.isEditing}}
               />
             </div>
 
@@ -336,14 +341,16 @@
                   id="category"
                   value={{this.newSubscription.category}}
                   {{on "change" this.updateCategory}}
+                   
                 >
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Music">Music</option>
-                  <option value="Productivity">Productivity</option>
-                  <option value="Utilities">Utilities</option>
-                  <option value="Health">Health</option>
-                  <option value="Education">Education</option>
-                  <option value="Other">Other</option>
+                <option>Select category</option>
+                  <option value="Entertainment" selected={{eq this.newSubscription.category "Entertainment"}}>Entertainment</option>
+                  <option value="Music" selected={{eq this.newSubscription.category "Music"}}>Music</option>
+                  <option value="Productivity" selected={{eq this.newSubscription.category "Productivity"}}>Productivity</option>
+                  <option value="Utilities" selected={{eq this.newSubscription.category "Utilities"}}>Utilities</option>
+                  <option value="Health" selected={{eq this.newSubscription.category "Health"}}>Health</option>
+                  <option value="Education" selected={{eq this.newSubscription.category "Education"}}>Education</option>
+                  <option value="Other" selected={{eq this.newSubscription.category "Other"}}>Other</option>
                 </select>
                 <i class="fas fa-chevron-down"></i>
               </div>
@@ -459,19 +466,23 @@
       </div>
     </div>
   {{/if}}
- 
+
   <div class="your-subscriptions">
     <div class="search-filter">
       <div class="search-container">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search subscriptions..." {{on 'input' this.searchTitle}}/>
+        <input
+          type="text"
+          placeholder="Search subscriptions..."
+          {{on "input" this.searchTitle}}
+        />
       </div>
       <button class="filter-btn" type="button">
         <i class="fas fa-filter"></i>
         Filter
       </button>
     </div>
- 
+
     <div class="subscription-tabs">
       <button
         class="tab-btn {{if this.isAllActive 'active'}}"
@@ -489,7 +500,7 @@
         {{on "click" (fn this.setActiveTab "inactive")}}
       >Inactive</button>
     </div>
- 
+
     {{#if this.hasSubscriptions}}
       {{#if this.isAllActive}}
         <div class="subscription-list">
