@@ -5,15 +5,45 @@ import { inject as service } from '@ember/service';
 export default class DashboardController extends Controller {
   @service router;
   @service wallet;
+  @service history;
   @service subscriptions;
 
+  get totDiscounts(){
+    let tot=parseFloat(this.subscriptions.totalDiscounts).toFixed(2);
+    return tot;
+  }
+
+  get totMonthlyExpenses(){
+    return parseFloat(this.wallet.monthlyEx).toFixed(2)
+  }
+
+  get anyActiveSubsriptionFound() {
+    return this.subscriptions.userSubscriptions.some((item) => item.isActive);
+  }
   get recentSubscriptions() {
-    let latest = [...this.subscriptions.userSubscriptions].reverse();
-    if (latest.length < 3) {
-      return latest;
+    let onlyActiveSubscriptions = this.subscriptions.userSubscriptions.filter(
+      (item) => item.isActive,
+    );
+    if (onlyActiveSubscriptions) {
+      let latest = onlyActiveSubscriptions.reverse();
+      if (latest.length < 3) {
+        return latest;
+      }
+      let [first, second, third] = latest;
+      return [first, second, third];
     }
-    let [first, second, third] = latest;
-    return [first, second, third];
+  }
+
+  get recentTransactions(){
+    
+    if(this.history.transactions){
+      let latest=this.history.transactions.reverse();
+      if (latest.length < 3) {
+        return latest;
+      }
+      let [first, second, third] = latest;
+      return [first, second, third];
+    }
   }
 
   get trend() {
@@ -27,20 +57,25 @@ export default class DashboardController extends Controller {
   }
 
   get topCategory() {
-    if (this.subscriptions.userSubscriptions.length) {
+    let findActiveCategory = this.subscriptions.userSubscriptions.filter(
+      (item) => item.isActive,
+    );
+
+    if (
+      this.subscriptions.userSubscriptions.length &&
+      findActiveCategory.length
+    ) {
       let currCategoryPrice = this.subscriptions.userSubscriptions[0].planPrice;
       let findCategory = this.subscriptions.userSubscriptions.find(
         (sub) => sub.planPrice > currCategoryPrice,
       );
-      if(findCategory){
-         
-        return (findCategory.category);
+      if (findCategory) {
+        return findCategory.category;
       }
-        return (this.subscriptions.userSubscriptions[0].category) ;
-    }else{
-      return 'None'
+      return this.subscriptions.userSubscriptions[0].category;
+    } else {
+      return 'None';
     }
-  
   }
 
   offers = [

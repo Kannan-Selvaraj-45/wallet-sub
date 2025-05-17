@@ -8,5 +8,6 @@ export default class ApplicationController extends Controller {
   @action
   handleSidebarToggle(isCollapsed) {
     this.isSidebarCollapsed = isCollapsed;
+    console.log(this.isSidebarCollapsed);
   }
 }

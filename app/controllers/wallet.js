@@ -6,8 +6,13 @@ import { inject as service } from '@ember/service';
 export default class WalletController extends Controller {
   @service wallet;
   @service router;
+  @service history;
   @service flashMessages;
   @tracked activeTab = 'overview';
+
+  get totMonthlyExpenses(){
+    return parseFloat(this.wallet.monthlyEx).toFixed(2)
+  }
 
   @action
   transitionToRoute() {
@@ -73,9 +78,34 @@ export default class WalletController extends Controller {
     this.setActiveTab('addMoney');
   }
 
+  get incomeTitles() {
+    let sources = [
+      'Salary',
+      'Loan',
+      'Bonus and incentives',
+      'Freelancing',
+      'Commisson',
+      'Sale',
+      'Rental',
+      'Stock Market',
+    ];
+    let index = Math.floor(Math.random() * sources.length);
+    return sources[index];
+  }
+
   processAddMoney(amount) {
     this.wallet.balance += amount;
     this.wallet.monthlyIn += amount;
+    const newTransaction = {
+      id: new Date(),
+      title: this.incomeTitles,
+      category: 'Income',
+      date: new Date().toDateString(),
+      amount: amount,
+      type: 'credit',
+      paymentMethod:'Wallet'
+    };
+    this.history.transactions = [...this.history.transactions, newTransaction];
     this.flashMessages.success(`Rs.${amount} added to wallet!`);
   }
 }

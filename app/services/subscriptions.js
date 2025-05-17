@@ -93,7 +93,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Basic',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 199,
             quarterly: 599,
             yearly: 1299,
@@ -102,7 +102,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Standard',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 199,
             quarterly: 699,
             yearly: 1399,
@@ -111,7 +111,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Premium',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 299,
             quarterly: 749,
             yearly: 1499,
@@ -120,7 +120,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Family',
           price: {
-            weekly:149,
+            weekly: 149,
             monthly: 199,
             quarterly: 1499,
             yearly: 2499,
@@ -135,7 +135,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Basic',
           price: {
-            weekly:29,
+            weekly: 29,
             monthly: 49,
             quarterly: 149,
             yearly: 499,
@@ -144,7 +144,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Standard',
           price: {
-            weekly:39,
+            weekly: 39,
             monthly: 1,
             quarterly: 299,
             yearly: 799,
@@ -153,7 +153,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Premium',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 299,
             quarterly: 749,
             yearly: 1499,
@@ -162,7 +162,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Family',
           price: {
-            weekly:149,
+            weekly: 149,
             monthly: 499,
             quarterly: 999,
             yearly: 1499,
@@ -177,27 +177,25 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Basic',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 149,
             quarterly: 199,
             yearly: 399,
           },
         },
         {
-          
           planName: 'Standard',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 199,
             quarterly: 499,
             yearly: 799,
           },
         },
         {
-          
           planName: 'Premium',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 299,
             quarterly: 749,
             yearly: 1999,
@@ -206,7 +204,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Family',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 999,
             quarterly: 1499,
             yearly: 3499,
@@ -221,7 +219,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Basic',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 99,
             quarterly: 199,
             yearly: 599,
@@ -230,7 +228,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Standard',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 629,
             quarterly: 1299,
             yearly: 3799,
@@ -239,7 +237,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Premium',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 999,
             quarterly: 1699,
             yearly: 3299,
@@ -248,7 +246,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Family',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 999,
             quarterly: 1499,
             yearly: 2999,
@@ -263,7 +261,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Basic',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 149,
             quarterly: 199,
             yearly: 399,
@@ -272,7 +270,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Standard',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 199,
             quarterly: 499,
             yearly: 799,
@@ -281,7 +279,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Premium',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 299,
             quarterly: 749,
             yearly: 1499,
@@ -290,7 +288,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Family',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 999,
             quarterly: 649.5,
             yearly: 2999,
@@ -305,7 +303,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Basic',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 149,
             quarterly: 199,
             yearly: 399,
@@ -314,7 +312,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Standard',
           price: {
-            weekly:99,
+            weekly: 99,
             monthly: 199,
             quarterly: 1,
             yearly: 799,
@@ -323,7 +321,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Premium',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 299,
             quarterly: 749,
             yearly: 1499,
@@ -332,7 +330,7 @@ export default class SubscriptionsService extends Service {
         {
           planName: 'Family',
           price: {
-            weekly:199,
+            weekly: 199,
             monthly: 999,
             quarterly: 1999,
             yearly: 2499,
@@ -343,10 +341,18 @@ export default class SubscriptionsService extends Service {
     },
   ];
 
-  @tracked userSubscriptions = [];
+  @tracked userSubscriptions = [
+    {
+      ...this.popularPlans[0],
+      isActive: false,
+      startDate: new Date(2025, 1).toISOString().split('T')[0],
+      nextDue: new Date(2025, 2).toISOString().split('T')[0],
+    },
+  ];
   @tracked activeSubscriptions = 0;
   @tracked inActiveSubscriptions = 0;
   @tracked totalDiscounts = 0;
+  @tracked totalRefund = 0;
 
   @tracked paidPrice = 0;
 }

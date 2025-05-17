@@ -2,6 +2,7 @@
 @import url("dashboard.css");
 @import url("wallet.css");
 @import url("subscriptions.css");
+@import "history.css";
 
 .main-content {
   margin-left: 285px;

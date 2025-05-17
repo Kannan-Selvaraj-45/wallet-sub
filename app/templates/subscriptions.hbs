@@ -38,14 +38,18 @@
   </div>
 
   <div class="popular-subscriptions shadow-sm">
-
     <div class="subscription-cards">
+
       {{#if this.showThreePlans}}
         {{#each this.threePlans as |plan|}}
           <div class="subscription-card">
+
             <div class="card-header {{this.getServiceClass plan.title}}">
-              <div class="service-info">
-                <div class="service-logo shadow-sm">
+              <div class="service-info position-relative">
+                {{#if (eq plan.title "Spotify")}}
+                  <span class="offer-ribbon">Best Offer %</span>
+                {{/if}}
+                <div class="service-logo position-relative shadow-sm">
                   {{#if plan.logo}}
                     <img src={{plan.logo}} alt={{plan.title}} />
                   {{else}}
@@ -116,8 +120,15 @@
         {{#each this.allPlans as |plan|}}
           <div class="subscription-card">
             <div class="card-header {{this.getServiceClass plan.title}}">
-              <div class="service-info">
-                <div class="service-logo shadow-sm">
+              <div class="service-info position-relative">
+                {{#if (or (eq plan.title "Disney+") (eq plan.title "YouTube"))}}
+                  <span class="offer-ribbon">Best Offer %</span>
+                {{/if}}
+                {{#if (eq plan.title "Spotify")}}
+                  <span class="offer-ribbon">Best Offer %</span>
+                {{/if}}
+                <div class="service-logo position-relative shadow-sm">
+
                   {{#if plan.logo}}
                     <img src={{plan.logo}} alt={{plan.title}} />
                   {{else}}
@@ -394,90 +405,129 @@
           </div>
 
           <div class="form-group">
-            <label>Payment Method</label>
-            <div class="payment-methods">
-              <div
-                class="payment-method
-                  {{if
-                    (eq this.newSubscription.paymentMethod 'UPI')
-                    'selected'
-                  }}"
+            <label class="form-label fw-semibold mb-3 fs-5">Payment Method</label>
+            <div class="payment-container">
+              <label
+                class="payment-option {{if this.selectWallet 'method-active'}}"
+                {{on "click" (fn this.setPayType "net")}}
               >
                 <input
                   type="radio"
-                  id="upi"
                   name="payment-method"
                   value="UPI"
-                  checked={{eq this.newSubscription.paymentMethod "UPI"}}
+                  id="upi"
                   {{on "change" this.updatePaymentMethod}}
+                  checked={{eq this.newSubscription.paymentMethod "UPI"}}
                 />
-                <label for="upi">
-                  <span class="payment-icon upi">UPI</span>
-                  <span class="payment-label">UPI</span>
-                </label>
-              </div>
+                <div class="option-content">
+                  <span class="method-icon" style="margin-right: 4px;"><i
+                      class="fa-brands fa-google-pay fs-3 fw-medium"
+                    ></i></span>
+                  <span class="method-text text-success">UPI</span>
+                </div>
+              </label>
 
-              <div
-                class="payment-method
-                  {{if
-                    (eq this.newSubscription.paymentMethod 'Debit Card')
-                    'selected'
-                  }}"
+              <label
+                class="payment-option {{if this.selectWallet 'method-active'}}"
+                {{on "click" (fn this.setPayType "net")}}
               >
                 <input
                   type="radio"
-                  id="debit-card"
                   name="payment-method"
                   value="Debit Card"
-                  checked={{eq this.newSubscription.paymentMethod "Debit Card"}}
+                  id="debit"
                   {{on "change" this.updatePaymentMethod}}
+                  checked={{eq this.newSubscription.paymentMethod "Debit Card"}}
                 />
-                <label for="debit-card">
-                  <span class="payment-icon debit-card"><i
-                      class="fas fa-credit-card"
-                    ></i></span>
-                  <span class="payment-label">Debit Card</span>
-                </label>
-              </div>
+                <div class="option-content">
+                  <span class="method-icon"><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-credit-card-icon lucide-credit-card"
+                    ><rect width="20" height="14" x="2" y="5" rx="2" /><line
+                        x1="2"
+                        x2="22"
+                        y1="10"
+                        y2="10"
+                      /></svg></span>
+                  <span class="method-text text-primary">Debit Card</span>
+                </div>
+              </label>
 
-              <div
-                class="payment-method
-                  {{if
-                    (eq this.newSubscription.paymentMethod 'Net Banking')
-                    'selected'
-                  }}"
+              <label
+                class="payment-option {{if this.selectWallet 'method-active'}}"
+                {{on "click" (fn this.setPayType "net")}}
               >
                 <input
                   type="radio"
-                  id="net-banking"
                   name="payment-method"
                   value="Net Banking"
+                  id="net"
+                  {{on "change" this.updatePaymentMethod}}
                   checked={{eq
                     this.newSubscription.paymentMethod
                     "Net Banking"
                   }}
-                  {{on "change" this.updatePaymentMethod}}
                 />
-                <label for="net-banking">
-                  <span class="payment-icon net-banking">NB</span>
-                  <span class="payment-label">Net Banking</span>
-                </label>
-              </div>
+                <div class="option-content">
+                  <span class="method-icon"><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-landmark-icon lucide-landmark"
+                    ><path d="M10 18v-7" /><path
+                        d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"
+                      /><path d="M14 18v-7" /><path d="M18 18v-7" /><path
+                        d="M3 22h18"
+                      /><path d="M6 18v-7" /></svg></span>
+                  <span class="method-text text-dark">Net Banking</span>
+                </div>
+              </label>
 
-              <div class="payment-method selected">
+              <label
+                class="payment-option {{if this.selectWallet 'method-active'}}"
+                {{on "click" (fn this.setPayType "wallet")}}
+              >
                 <input
                   type="radio"
-                  id="wallet"
                   name="payment-method"
                   value="Wallet"
-                  checked={{eq this.newSubscription.paymentMethod "Wallet"}}
+                  id="wallet"
                   {{on "change" this.updatePaymentMethod}}
+                  checked={{eq this.newSubscription.paymentMethod "Wallet"}}
                 />
-                <label for="wallet">
-                  <span class="payment-icon wallet">W</span>
-                  <span class="payment-label">Wallet</span>
-                </label>
-              </div>
+                <div class="option-content">
+                  <span class="method-icon"><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-wallet-minimal-icon lucide-wallet-minimal"
+                    ><path d="M17 14h.01" /><path
+                        d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14"
+                      /></svg></span>
+                  <span class="method-text text-success">Wallet</span>
+                </div>
+              </label>
+
             </div>
           </div>
         </div>
@@ -535,7 +585,27 @@
       {{#if this.isAllActive}}
         <div class="subscription-list">
           {{#each this.filteredSubscriptions as |subscription|}}
-            <div class="subscription-item">
+            <div
+              class="subscription-item position-relative active-card-{{subscription.isActive}}"
+            >
+              {{#if (and subscription.isOffer subscription.isActive)}}
+                <span class="offered-card-badge-{{subscription.isOffer}}">{{if
+                    subscription.isActive
+                    "Offered"
+                    "Expired"
+                  }}
+                </span>
+              {{else if (and subscription.isOffer (not subscription.isActive))}}
+                <span class="active-card-badge-{{subscription.isActive}}">
+                  Expired
+                </span>
+
+              {{else}}
+                <span class="active-card-badge-{{subscription.isActive}}">
+                  {{subscription.plan}}
+                </span>
+              {{/if}}
+
               <div class="subscription-item-logo">
                 <div class="logo-placeholder">{{get
                     subscription.title
@@ -593,72 +663,97 @@
 
       {{else if this.isActiveTabActive}}
         <div class="subscription-list">
-          {{#each this.filteredSubscriptions as |subscription|}}
-            {{#if subscription.isActive}}
-              <div class="subscription-item">
-                <div class="subscription-item-logo">
-                  <div class="logo-placeholder">{{get
-                      subscription.title
-                      "0"
-                    }}</div>
-                </div>
-                <div class="subscription-item-details">
-                  <div
-                    class="subscription-item-name"
-                  >{{subscription.title}}</div>
-                  <div
-                    class="subscription-item-category"
-                  >{{subscription.category}}</div>
-                </div>
-                <div class="subscription-item-price">
-                  <div class="price">₹{{subscription.planPrice}}</div>
-                  <div class="billing-cycle">/{{subscription.planCycle}}</div>
-                </div>
-                <div class="subscription-start-date">
+          {{#if this.anyActiveSubscriptions}}
+            {{#each this.filteredSubscriptions as |subscription|}}
 
-                  <input
-                    type="date"
-                    value={{subscription.startDate}}
-                    class="disabled-date"
-                    disabled
-                  />
-                  <span class="start-date">subscribed</span>
-                </div>
-                <div class="subscription-start-date">
-                  <input
-                    type="date"
-                    value={{subscription.nextDue}}
-                    class="disabled-date"
-                    disabled
-                  />
-                  <span class="start-date">Next due</span>
-                </div>
+              {{#if subscription.isActive}}
+                <div class="subscription-item position-relative">
+                  <span class="active-card-badge-{{subscription.isActive}}">
+                    Active
+                  </span>
+                  <div class="subscription-item-logo">
+                    <div class="logo-placeholder">{{get
+                        subscription.title
+                        "0"
+                      }}</div>
+                  </div>
+                  <div class="subscription-item-details">
+                    <div
+                      class="subscription-item-name"
+                    >{{subscription.title}}</div>
+                    <div
+                      class="subscription-item-category"
+                    >{{subscription.category}}</div>
+                  </div>
+                  <div class="subscription-item-price">
+                    <div class="price">₹{{subscription.planPrice}}</div>
+                    <div class="billing-cycle">/{{subscription.planCycle}}</div>
+                  </div>
+                  <div class="subscription-start-date">
 
-                <div class="subscription-item-actions">
-                  <button
-                    class="action-btn"
-                    type="button"
-                    {{on "click" (fn this.editSubscription subscription)}}
-                  >
-                    <i class="fas fa-pencil-alt"></i>
-                  </button>
-                  <button
-                    class="action-btn"
-                    type="button"
-                    {{on "click" (fn this.deleteSubscription subscription)}}
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
+                    <input
+                      type="date"
+                      value={{subscription.startDate}}
+                      class="disabled-date"
+                      disabled
+                    />
+                    <span class="start-date">subscribed</span>
+                  </div>
+                  <div class="subscription-start-date">
+                    <input
+                      type="date"
+                      value={{subscription.nextDue}}
+                      class="disabled-date"
+                      disabled
+                    />
+                    <span class="start-date">Next due</span>
+                  </div>
+
+                  <div class="subscription-item-actions">
+                    <button
+                      class="action-btn"
+                      type="button"
+                      {{on "click" (fn this.editSubscription subscription)}}
+                    >
+                      <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button
+                      class="action-btn"
+                      type="button"
+                      {{on "click" (fn this.deleteSubscription subscription)}}
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
+              {{/if}}
+
+            {{/each}}
+
+          {{else}}
+            <div class="empty-subscriptions">
+              <div class="empty-icon">
+                <i class="fas fa-box-open"></i>
               </div>
-            {{/if}}
-          {{/each}}
+              <h3>No active subscriptions </h3>
+              <button
+                class="add-first-btn"
+                type="button"
+                {{on "click" this.openAddSubscriptionModal}}
+              >
+                <i class="fas fa-plus"></i>
+                Add new subscription
+              </button>
+            </div>
+          {{/if}}
+
         </div>
       {{else}}
         <div class="subscription-list">
           {{#if this.inactiveSubscriptions}}
             {{#each this.inactiveSubscriptions as |subscription|}}
               <div class="subscription-item">
+                <span class="active-card-badge-false">Expired</span>
                 <div class="subscription-item-logo">
                   <div class="logo-placeholder">{{get
                       subscription.title

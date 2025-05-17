@@ -110,7 +110,7 @@
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Monthly Spending</span>
-          <p class="analytics-value montly-count-value">₹{{this.wallet.monthlyEx}} {{if (eq this.wallet.monthlyEx 0) '.00'}}</p>
+          <p class="analytics-value montly-count-value">₹{{this.totMonthlyExpenses}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Top Category</span>
@@ -199,7 +199,7 @@
       </div>
       <div class="min-stat-value"><span
           style={{if this.positiveIn "color:#7036e7;"}}
-        >₹</span>{{this.subscriptions.totalDiscounts}}</div>
+        >₹</span>{{this.totDiscounts}}</div>
       <button
         class="btn btn-light btn-block"
         type="button"
@@ -250,7 +250,7 @@
         >View All
           <i class="fas fa-arrow-right"></i></a>
       </div>
-      {{#if this.subscriptions.userSubscriptions.length}}
+      {{#if (and this.subscriptions.userSubscriptions.length this.anyActiveSubsriptionFound)}}
        <div class="subscription-list">
           {{#each this.recentSubscriptions as |subscription|}}
             <div class="subscription-item">
@@ -298,20 +298,44 @@
         >View All
           <i class="fas fa-arrow-right"></i></a>
       </div>
+      
+      {{#if (and this.recentTransactions.length)}}
+       <div class="subscription-list">
+          {{#each this.recentTransactions as |transaction|}}
+            <div class="subscription-item">
+              <div class="subscription-item-logo">
+                <div class="logo-placeholder">{{get transaction.title "0"}}</div>
+              </div>
+              <div class="subscription-item-details">
+                <div class="subscription-item-name">{{transaction.title}}</div>
+                <div
+                  class="subscription-item-category"
+                >{{transaction.category}}</div>
+              </div>
+              <div class="subscription-item-price">
+                <div class="price">₹{{transaction.amount}}</div>
+                <div class="billing-cycle"> {{transaction.date}}</div>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+        {{else}}
       <div class="empty-state">
         <div class="empty-icon">
-          <i class="fas fa-history"></i>
+          <i class="fas fa-calendar"></i>
         </div>
-        <p>No transactions yet</p>
+        <p>You don't have any subscriptions yet</p>
         <button
           class="btn btn-primary"
           type="button"
-          {{on "click" (fn this.transitionToRoute "wallet")}}
+          {{on "click" (fn this.transitionToRoute "subscriptions")}}
         >
           <i class="fas fa-plus"></i>
-          Add Money
+          Add Subscription
         </button>
       </div>
+      {{/if}}
+
     </div>
   </div>
 

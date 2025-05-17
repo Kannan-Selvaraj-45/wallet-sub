@@ -1,1 +1,301 @@
-<h1>hello.01182004</h1>
+<div class="history-container">
+  <div class="history-header shadow">
+    <div class="header-content">
+      <h1>Wallet Transaction History</h1>
+      <p>View and manage all your wallet transaction records in one place.</p>
+    </div>
+    <div class="header-actions">
+      <button class="export-btn" type="button">
+        <i class="fas fa-download"></i>
+        Export
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <div class="search-container">
+      <i class="fas fa-search"></i>
+      <input
+        type="text"
+        placeholder="Search transactions..."
+        value={{this.searchQuery}}
+        {{on "input" this.updateSearchQuery}}
+      />
+    </div>
+
+    <div class="filter-options">
+      <div class="date-filter">
+        <div class="select-wrapper">
+          <select {{on "change" this.updateDateFilter}}>
+            <option value="all">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="year">This Year</option>
+          </select>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <div class="type-filters">
+        <button
+          class="filter-pill {{if this.showAllTypes 'active'}}"
+          type="button"
+          {{on "click" (fn this.setTypeFilter "all")}}
+        >
+          All
+        </button>
+        <button
+          class="filter-pill {{if this.showDebit 'active'}}"
+          type="button"
+          {{on "click" (fn this.setTypeFilter "debit")}}
+        >
+          <i class="fas fa-arrow-up debit-icon"></i>
+          Debit
+        </button>
+        <button
+          class="filter-pill {{if this.showCredit 'active'}}"
+          type="button"
+          {{on "click" (fn this.setTypeFilter "credit")}}
+        >
+          <i class="fas fa-arrow-down credit-icon"></i>
+          Credit
+        </button>
+        <button
+          class="filter-pill {{if this.showRefunded 'active'}}"
+          type="button"
+          {{on "click" (fn this.setTypeFilter "refunded")}}
+        >
+          <i class="fas fa-undo refunded-icon"></i>
+          Refunded
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="transactions-summary">
+    <div class="summary-card total-credited">
+      <div
+        class="summary-icon"
+        style="background-color: #ede7f6;color:#7e57c2;"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-indian-rupee-icon lucide-indian-rupee"
+        ><path d="M6 3h12" /><path d="M6 8h12" /><path d="m6 13 8.5 8" /><path
+            d="M6 13h3"
+          /><path d="M9 13c6.667 0 6.667-10 0-10" /></svg>
+      </div>
+      <div class="summary-details">
+        <h3>Balance</h3>
+        <p class="amount">₹{{this.totalBalance}}</p>
+      </div>
+    </div>
+    <div class="summary-card total-debited">
+      <div class="summary-icon">
+        <i class="fas fa-arrow-up"></i>
+      </div>
+      <div class="summary-details">
+        <h3>Total Debited</h3>
+        <p class="amount">₹{{this.totalDebited}}</p>
+      </div>
+    </div>
+
+    <div class="summary-card total-credited">
+      <div class="summary-icon">
+        <i class="fas fa-arrow-down"></i>
+      </div>
+      <div class="summary-details">
+        <h3>Total Credited</h3>
+        <p class="amount">₹{{this.totalCredited}}</p>
+      </div>
+    </div>
+
+    <div class="summary-card total-refunded">
+      <div class="summary-icon">
+        <i class="fas fa-undo"></i>
+      </div>
+      <div class="summary-details">
+        <h3>Total Refunded</h3>
+        <p class="amount">₹{{this.totalRefunded}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container mt-5">
+    <div style="color: #7e57c2;margin-left:5px;">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-calendar-sync-icon lucide-calendar-sync"
+      ><path d="M11 10v4h4" /><path
+          d="m11 14 1.535-1.605a5 5 0 0 1 8 1.5"
+        /><path d="M16 2v4" /><path
+          d="m21 18-1.535 1.605a5 5 0 0 1-8-1.5"
+        /><path d="M21 22v-4h-4" /><path
+          d="M21 8.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4.3"
+        /><path d="M3 10h4" /><path d="M8 2v4" /></svg>
+    </div>
+    <h2>Your transactions</h2>
+  </div>
+
+  <div class="transactions-container">
+    {{#if this.hasTransactions}}
+      <div class="transactions-list">
+        {{#each this.filteredTransactions as |transaction|}}
+
+          <div class="transaction-item {{transaction.type}}">
+            <div class="transaction-icon">
+              {{#if (eq transaction.type "debit")}}
+                <i class="fas fa-arrow-up"></i>
+              {{else if (eq transaction.type "credit")}}
+                <i class="fas fa-arrow-down"></i>
+              {{else if (eq transaction.type "refunded")}}
+                <i class="fas fa-undo"></i>
+              {{/if}}
+            </div>
+
+            <div class="transaction-details">
+              <div class="transaction-title">{{transaction.title}}</div>
+              <div class="transaction-category">{{transaction.category}}</div>
+              <div class="transaction-date">{{transaction.date}}</div>
+            </div>
+
+            <div class="transaction-amount {{transaction.type}}">
+              {{#if (eq transaction.type "debit")}}
+                -₹{{transaction.amount}}
+              {{else if (eq transaction.type "credit")}}
+                +₹{{transaction.amount}}
+              {{else if (eq transaction.type "refunded")}}
+                ₹{{transaction.amount}}
+                <span class="refunded-label">Refunded</span>
+              {{/if}}
+            </div>
+
+            <div class="transaction-actions">
+              <button class="action-btn" title="View Details" {{on 'click' (fn this.viewTransactionDetails transaction)}}>
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn" title="Download Receipt">
+                <i class="fas fa-file-download"></i>
+              </button>
+            </div>
+          </div>
+
+        {{/each}}
+
+      
+         {{#if this.hasMoreTransactions}}
+          <div class="load-more">
+            <button class="load-more-btn" {{on "click" this.loadMoreTransactions}}>
+              Load More Transactions
+            </button>
+          </div>
+        {{/if}}
+      </div>
+    {{else}}
+      <div class="empty-transactions">
+        <div class="empty-icon">
+          <i class="fas fa-receipt"></i>
+        </div>
+        <h3>No transactions found</h3>
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if this.showTransactionDetails}}
+  <div class="modal-overlay">
+    <div class="modal-container transaction-details-modal">
+      <div class="modal-header">
+        <h2>Transaction Details</h2>
+        <button class="close-btn" {{on "click" this.closeTransactionDetails}}>
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      
+      <div class="modal-body">
+        <div class="transaction-detail-header {{this.selectedTransaction.type}}">
+          <div class="transaction-detail-icon">
+            {{#if (eq this.selectedTransaction.type "debit")}}
+              <i class="fas fa-arrow-up"></i>
+            {{else if (eq this.selectedTransaction.type "credit")}}
+              <i class="fas fa-arrow-down"></i>
+            {{else if (eq this.selectedTransaction.type "refunded")}}
+              <i class="fas fa-undo"></i>
+            {{/if}}
+          </div>
+          
+          <div class="transaction-detail-amount">
+            {{#if (eq this.selectedTransaction.type "debit")}}
+              -₹{{this.selectedTransaction.amount}}
+            {{else if (eq this.selectedTransaction.type "credit")}}
+              +₹{{this.selectedTransaction.amount}}
+            {{else if (eq this.selectedTransaction.type "refunded")}}
+              ₹{{this.selectedTransaction.amount}} <span class="refunded-label">Refunded</span>
+            {{/if}}
+          </div>
+          
+          
+        </div>
+        
+        <div class="transaction-detail-info">
+          <div class="detail-row">
+            <div class="detail-label">Transaction ID</div>
+            <div class="detail-value">{{this.selectedTransaction.id}}</div>
+          </div>
+          
+          <div class="detail-row">
+            <div class="detail-label">Title</div>
+            <div class="detail-value">{{this.selectedTransaction.title}}</div>
+          </div>
+          
+          <div class="detail-row">
+            <div class="detail-label">Category</div>
+            <div class="detail-value">{{this.selectedTransaction.category}}</div>
+          </div>
+          
+          <div class="detail-row">
+            <div class="detail-label">Date </div>
+            <div class="detail-value">{{this.selectedTransaction.date}}</div>
+          </div>
+          
+          <div class="detail-row">
+            <div class="detail-label">Payment Method</div>
+            <div class="detail-value">{{this.selectedTransaction.paymentMethod}}</div>
+          </div>
+          
+           
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="download-receipt-btn" >
+          <i class="fas fa-file-download"></i> Download Receipt
+        </button>
+        {{#if (eq this.selectedTransaction.type "debit")}}
+          <button class="request-refund-btn" >
+            <i class="fas fa-undo"></i> Request Refund
+          </button>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+{{/if}}
+</div>
+

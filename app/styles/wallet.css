@@ -50,25 +50,29 @@
   backdrop-filter: blur(5px);
   min-width: 250px;
 }
+
 .balance-card {
   display: flex;
   gap: 30px;
   align-items: center;
   margin: 18px 15px;
 }
+
 .balance-icon {
   width: 80px;
   height: 80px;
-  background-color: #ffffff33;
+  background-color: #fff3;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .balance-icon svg {
   width: 50px;
   height: 40px;
 }
+
 .balance-label {
   font-size: 16px;
   color: #ffffffe6;
@@ -153,7 +157,7 @@
   background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
 }
 
 .stat-title {
@@ -197,7 +201,7 @@
   background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
 }
 
 .section-header {
@@ -288,7 +292,7 @@
   background-color: white;
   border-radius: 12px;
   padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
 }
 
 .add-money-section h3 {
@@ -372,12 +376,13 @@
   background-color: #f0eafc;
   transform: translateY(-2px);
 }
+
 .add-money-section .rupee {
   font-size: 20px;
-  font-weight: 600;
   color: #7036e7;
   font-weight: bold;
 }
+
 .quick-add-card .amount {
   font-size: 20px;
   font-weight: 600;
@@ -441,7 +446,7 @@
   background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
 }
 
 .wallet-tips h3 {
@@ -519,7 +524,7 @@
   background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
 }
 
 .premium-card h3 {
@@ -551,7 +556,7 @@
   background-color: #5f2bc4;
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .add-money-content {
     grid-template-columns: 1fr;
   }
@@ -571,7 +576,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (width <= 576px) {
   .quick-add-grid {
     grid-template-columns: 1fr;
   }
