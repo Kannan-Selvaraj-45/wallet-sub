@@ -905,3 +905,11 @@ select {
   background-color: rgba(126, 87, 194, 0.05);
   box-shadow: 0 0 0 2px rgba(126, 87, 194, 0.2);
 }
+
+ 
+
+.active-pay{
+  color: #7e57c2;
+  font-size: 12px;
+  font-weight: bold;
+}

@@ -8,7 +8,7 @@
     </div>
     <div class="header-actions">
       <button
-        class="wallet-btn shadow "
+        class="wallet-btn shadow"
         type="button"
         {{on "click" (fn this.transitionToRoute "wallet")}}
       >
@@ -106,32 +106,41 @@
       <div class="analytics-container">
         <div class="analytics-card">
           <span class="analytics-title">Active Subscriptions</span>
-          <p class="analytics-value subscription-count-value">{{this.subscriptions.activeSubscriptions}}</p>
+          <p
+            class="analytics-value subscription-count-value"
+          >{{this.subscriptions.activeSubscriptions}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Monthly Spending</span>
-          <p class="analytics-value montly-count-value">₹{{this.totMonthlyExpenses}}</p>
+          <p
+            class="analytics-value montly-count-value"
+          >₹{{this.totMonthlyExpenses}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Top Category</span>
-          <p class="analytics-value fw-bolder text-black fs-5">{{this.topCategory}}</p>
+          <p
+            class="analytics-value fw-bolder text-black fs-5"
+          >{{this.topCategory}}</p>
         </div>
         <div class="analytics-card">
           <span class="analytics-title">Trend</span>
           <p class="analytics-value">
             <span style="color: {{this.trend.color}}">
-              <i class="fa-solid fa-arrow-{{this.trend.icon}} fs-5 mt-1" style="margin-right: 5px;"></i>
+              <i
+                class="fa-solid fa-arrow-{{this.trend.icon}} fs-5 mt-1"
+                style="margin-right: 5px;"
+              ></i>
             </span>
 
             <span
-              class="fw-bolder fs-5" 
+              class="fw-bolder fs-5"
               style="color: {{this.trend.color}}"
             >Savings</span></p>
         </div>
       </div>
     </div>
   </div>
- 
+
   <div class="min-stat-container">
     <div class="min-stat-card">
       <div class="d-flex align-items-center">
@@ -164,15 +173,15 @@
 
         <h3 class="dashboard-stat-title pt-2">Total Subscriptions</h3>
       </div>
-      <div class="min-stat-value">{{this.subscriptions.userSubscriptions.length}}</div>
+      <div
+        class="min-stat-value"
+      >{{this.subscriptions.userSubscriptions.length}}</div>
       <button
         class="btn btn-light btn-block"
         type="button"
         {{on "click" (fn this.transitionToRoute "wallet")}}
       >Manage Subscriptions</button>
     </div>
-
-   
 
     <div class="min-stat-card">
       <div class="d-flex align-items-center">
@@ -203,7 +212,7 @@
       <button
         class="btn btn-light btn-block"
         type="button"
-        {{on "click" (fn this.transitionToRoute "wallet")}}
+        {{on "click" (fn this.transitionToRoute "subscriptions")}}
       >View Details</button>
     </div>
 
@@ -228,9 +237,7 @@
 
         <h3 class="dashboard-stat-title pt-2">Protection</h3>
       </div>
-      <div class="min-stat-value"><span
-          class="min-stat-plan"
-        >Basic</span></div>
+      <div class="min-stat-value"><span class="min-stat-plan">Basic</span></div>
       <button
         class="btn btn-light btn-block upgrade text-light"
         type="button"
@@ -250,12 +257,20 @@
         >View All
           <i class="fas fa-arrow-right"></i></a>
       </div>
-      {{#if (and this.subscriptions.userSubscriptions.length this.anyActiveSubsriptionFound)}}
-       <div class="subscription-list">
+      {{#if
+        (and
+          this.subscriptions.userSubscriptions.length
+          this.anyActiveSubsriptionFound
+        )
+      }}
+        <div class="subscription-list">
           {{#each this.recentSubscriptions as |subscription|}}
             <div class="subscription-item">
               <div class="subscription-item-logo">
-                <div class="logo-placeholder">{{get subscription.title "0"}}</div>
+                <div class="logo-placeholder">{{get
+                    subscription.title
+                    "0"
+                  }}</div>
               </div>
               <div class="subscription-item-details">
                 <div class="subscription-item-name">{{subscription.title}}</div>
@@ -270,21 +285,21 @@
             </div>
           {{/each}}
         </div>
-        {{else}}
-      <div class="empty-state">
-        <div class="empty-icon">
-          <i class="fas fa-calendar"></i>
+      {{else}}
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-calendar"></i>
+          </div>
+          <p>You don't have any subscriptions yet</p>
+          <button
+            class="btn btn-primary"
+            type="button"
+            {{on "click" (fn this.transitionToRoute "subscriptions")}}
+          >
+            <i class="fas fa-plus"></i>
+            Add Subscription
+          </button>
         </div>
-        <p>You don't have any subscriptions yet</p>
-        <button
-          class="btn btn-primary"
-          type="button"
-          {{on "click" (fn this.transitionToRoute "subscriptions")}}
-        >
-          <i class="fas fa-plus"></i>
-          Add Subscription
-        </button>
-      </div>
       {{/if}}
     </div>
 
@@ -298,13 +313,16 @@
         >View All
           <i class="fas fa-arrow-right"></i></a>
       </div>
-      
+
       {{#if (and this.recentTransactions.length)}}
-       <div class="subscription-list">
+        <div class="subscription-list">
           {{#each this.recentTransactions as |transaction|}}
             <div class="subscription-item">
               <div class="subscription-item-logo">
-                <div class="logo-placeholder">{{get transaction.title "0"}}</div>
+                <div class="logo-placeholder">{{get
+                    transaction.title
+                    "0"
+                  }}</div>
               </div>
               <div class="subscription-item-details">
                 <div class="subscription-item-name">{{transaction.title}}</div>
@@ -313,27 +331,36 @@
                 >{{transaction.category}}</div>
               </div>
               <div class="subscription-item-price">
-                <div class="price">₹{{transaction.amount}}</div>
+                <div class="transaction-amount {{transaction.type}}">
+                  {{#if (eq transaction.type "debit")}}
+                    -₹{{transaction.amount}}
+                  {{else if (eq transaction.type "credit")}}
+                    +₹{{transaction.amount}}
+                  {{else if (eq transaction.type "refunded")}}
+                    ₹{{transaction.amount}}
+                    <span class="refunded-label">Refunded</span>
+                  {{/if}}
+                </div>
                 <div class="billing-cycle"> {{transaction.date}}</div>
               </div>
             </div>
           {{/each}}
         </div>
-        {{else}}
-      <div class="empty-state">
-        <div class="empty-icon">
-          <i class="fas fa-calendar"></i>
+      {{else}}
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-calendar"></i>
+          </div>
+          <p>You don't have any transactions yet</p>
+          <button
+            class="btn btn-primary"
+            type="button"
+            {{on "click" (fn this.transitionToRoute "subscriptions")}}
+          >
+            <i class="fas fa-plus"></i>
+            Add Subscription
+          </button>
         </div>
-        <p>You don't have any subscriptions yet</p>
-        <button
-          class="btn btn-primary"
-          type="button"
-          {{on "click" (fn this.transitionToRoute "subscriptions")}}
-        >
-          <i class="fas fa-plus"></i>
-          Add Subscription
-        </button>
-      </div>
       {{/if}}
 
     </div>

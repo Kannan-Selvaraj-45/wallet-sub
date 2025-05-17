@@ -8,13 +8,13 @@ export default class DashboardController extends Controller {
   @service history;
   @service subscriptions;
 
-  get totDiscounts(){
-    let tot=parseFloat(this.subscriptions.totalDiscounts).toFixed(2);
+  get totDiscounts() {
+    let tot = parseFloat(this.subscriptions.totalDiscounts).toFixed(2);
     return tot;
   }
 
-  get totMonthlyExpenses(){
-    return parseFloat(this.wallet.monthlyEx).toFixed(2)
+  get totMonthlyExpenses() {
+    return parseFloat(this.wallet.monthlyEx).toFixed(2);
   }
 
   get anyActiveSubsriptionFound() {
@@ -25,24 +25,14 @@ export default class DashboardController extends Controller {
       (item) => item.isActive,
     );
     if (onlyActiveSubscriptions) {
-      let latest = onlyActiveSubscriptions.reverse();
-      if (latest.length < 3) {
-        return latest;
-      }
-      let [first, second, third] = latest;
-      return [first, second, third];
+      return onlyActiveSubscriptions.slice(-3).reverse();
+       
     }
   }
 
-  get recentTransactions(){
-    
-    if(this.history.transactions){
-      let latest=this.history.transactions.reverse();
-      if (latest.length < 3) {
-        return latest;
-      }
-      let [first, second, third] = latest;
-      return [first, second, third];
+  get recentTransactions() {
+    if (this.history.transactions) {
+      return this.history.transactions.slice(-3).reverse();
     }
   }
 

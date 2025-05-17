@@ -616,14 +616,17 @@
                 <div class="subscription-item-name">{{subscription.title}}</div>
                 <div
                   class="subscription-item-category"
-                >{{subscription.category}}</div>
+                >{{subscription.category}} | <span class="active-pay">{{subscription.paymentMethod}}</span></div>
+              
               </div>
               <div class="subscription-item-price">
                 <div class="price">₹{{subscription.planPrice}}</div>
                 <div class="billing-cycle">/{{subscription.planCycle}}</div>
               </div>
-              <div class="subscription-start-date">
 
+                
+
+              <div class="subscription-start-date">
                 <input
                   type="date"
                   value={{subscription.startDate}}

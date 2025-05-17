@@ -11,7 +11,7 @@ export default class SubscriptionsController extends Controller {
   @service history
 
   @tracked showAddSubscriptionModal = false
-  @tracked showThreePlans = true
+  @tracked showThreePlans = false
   @tracked activeTab = "all"
   @tracked isEditing = false
   @tracked editingSubscriptionId = null
@@ -22,7 +22,7 @@ export default class SubscriptionsController extends Controller {
 
   @tracked searchQuery = ""
 
-
+   
   @tracked payType='';
 
 
@@ -47,6 +47,7 @@ export default class SubscriptionsController extends Controller {
       console.log(this.pa)
   }
 
+  
   get filteredSubscriptions() {
     if (this.subscriptions.userSubscriptions.length) {
       const filtered = this.subscriptions.userSubscriptions.filter((sub) =>
@@ -99,6 +100,12 @@ export default class SubscriptionsController extends Controller {
 
   @action nextDue(currDate, plan) {
     const date = currDate
+
+    if(plan==='weekly'){
+      const nextWeek=new Date(date)
+      nextWeek.setDate(date.getDate()+7)
+      return nextWeek.toISOString().split("T")[0];
+    }
 
     if (plan === "monthly") {
       const nextMonth = new Date(date)

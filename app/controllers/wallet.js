@@ -9,14 +9,32 @@ export default class WalletController extends Controller {
   @service history;
   @service flashMessages;
   @tracked activeTab = 'overview';
+  @service subscriptions;
+
 
   get totMonthlyExpenses(){
     return parseFloat(this.wallet.monthlyEx).toFixed(2)
   }
 
+   get recentTransactions(){
+    if(this.history.transactions){
+      let latest=this.history.transactions.reverse();
+      if (latest.length < 3) {
+        return latest;
+      }
+      let [first, second, third] = this.history.transactions.reverse();
+      return [first, second, third];
+    }
+  }
+
   @action
   transitionToRoute() {
     this.router.transitionTo('dashboard');
+  }
+
+  @action
+  transitionToHistory(){
+    this.router.transitionTo('history')
   }
 
   get positiveIn() {

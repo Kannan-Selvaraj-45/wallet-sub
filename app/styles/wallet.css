@@ -420,7 +420,7 @@
   gap: 10px;
 }
 
-.payment-option {
+.wallet-payment-option {
   padding: 8px 15px;
   border-radius: 20px;
   border: 1px solid #e0e0e0;
@@ -430,7 +430,7 @@
   cursor: pointer;
 }
 
-.payment-option.active {
+.wallet-payment-option.active {
   background-color: #7036e7;
   color: white;
   border-color: #7036e7;
@@ -607,7 +607,7 @@
     flex-direction: column;
   }
 
-  .payment-option {
+  .wallet-payment-option {
     width: 100%;
     text-align: center;
   }

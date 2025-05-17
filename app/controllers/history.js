@@ -30,7 +30,7 @@ export default class HistoryController extends Controller {
 
   get filteredTransactions() {
     
-    let transactions = this.history.transactions.filter(item=>item.paymentMethod==='Wallet');
+    let transactions = this.history.transactions.filter(item=>item.paymentMethod==='Wallet').reverse();
 
     let searchQuery = this.searchQuery.toLowerCase();
     if (searchQuery) {

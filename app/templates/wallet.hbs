@@ -119,40 +119,75 @@
             </div>
           </div>
 
-          <div class="transactions-section">
+          <div class="section-card">
             <div class="section-header">
               <h2>Recent Transactions</h2>
               <a
                 href="#"
                 class="view-all"
-                {{on "click" this.viewAllTransactions}}
-              >
-                View All
-                <i class="fas fa-arrow-right"></i>
-              </a>
+                {{on "click" this.transitionToHistory}}
+              >View All
+                <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div class="empty-transactions">
-              <div class="empty-icon">
-                <i class="fas fa-history"></i>
+            {{#if (and this.recentTransactions.length)}}
+              <div class="subscription-list">
+                {{#each this.recentTransactions as |transaction|}}
+                  <div class="subscription-item">
+                    <div class="subscription-item-logo">
+                      <div class="logo-placeholder">{{get
+                          transaction.title
+                          "0"
+                        }}</div>
+                    </div>
+                    <div class="subscription-item-details">
+                      <div
+                        class="subscription-item-name"
+                      >{{transaction.title}}</div>
+                      <div
+                        class="subscription-item-category"
+                      >{{transaction.category}}</div>
+                    </div>
+                    <div class="subscription-item-price">
+                      <div class="transaction-amount {{transaction.type}}">
+                        {{#if (eq transaction.type "debit")}}
+                          -₹{{transaction.amount}}
+                        {{else if (eq transaction.type "credit")}}
+                          +₹{{transaction.amount}}
+                        {{else if (eq transaction.type "refunded")}}
+                          ₹{{transaction.amount}}
+                          <span class="refunded-label">Refunded</span>
+                        {{/if}}
+                      </div>
+                      <div class="billing-cycle"> {{transaction.date}}</div>
+                    </div>
+                  </div>
+                {{/each}}
               </div>
-              <p>No transactions yet</p>
-              <button
-                class="btn-add-money"
-                type="button"
-                {{on "click" this.openAddMoneyTab}}
-              >
-                <i class="fas fa-plus"></i>
-                Add Money
-              </button>
-            </div>
+            {{else}}
+              <div class="empty-state">
+                <div class="empty-icon">
+                  <i class="fas fa-calendar"></i>
+                </div>
+                <p>You don't have any transactions yet</p>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  {{on "click" (fn this.transitionToRoute "subscriptions")}}
+                >
+                  <i class="fas fa-plus"></i>
+                  Add Subscription
+                </button>
+              </div>
+            {{/if}}
+
           </div>
         </div>
       {{else}}
         <div class="add-money-tab">
           <div class="add-money-content">
             <div class="add-money-section">
-              <h3><span  class="rupee" >(₹)</span> Add Money to Wallet</h3>
+              <h3><span class="rupee">(₹)</span> Add Money to Wallet</h3>
 
               <div class="add-money-form">
                 <div class="form-group">
@@ -218,10 +253,15 @@
                 <h3>Payment Methods</h3>
                 <p>You can add money using any of these methods</p>
                 <div class="wallet-payment-options">
-                  <button class="payment-option" type="button">Credit Card</button>
-                  <button class="payment-option" type="button">Debit Card</button>
-                  <button class="payment-option" type="button">UPI</button>
-                  <button class="payment-option" type="button">Net Banking</button>
+                  <button class="wallet-payment-option" type="button">Credit
+                    Card</button>
+                  <button class="wallet-payment-option" type="button">Debit Card</button>
+                  <button
+                    class="wallet-payment-option"
+                    type="button"
+                  >UPI</button>
+                  <button class="wallet-payment-option" type="button">Net
+                    Banking</button>
                 </div>
               </div>
             </div>
