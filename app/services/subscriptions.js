@@ -349,6 +349,7 @@ export default class SubscriptionsService extends Service {
       nextDue: new Date(2025, 2).toISOString().split('T')[0],
       paymentMethod:'Wallet'
     },
+   
   ];
   @tracked activeSubscriptions = 0;
   @tracked inActiveSubscriptions = 0;

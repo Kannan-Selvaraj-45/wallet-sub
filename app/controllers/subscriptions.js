@@ -11,7 +11,7 @@ export default class SubscriptionsController extends Controller {
   @service history;
 
   @tracked showAddSubscriptionModal = false;
-  @tracked showThreePlans = false;
+  @tracked showThreePlans = true;
   @tracked activeTab = 'all';
   @tracked isEditing = false;
   @tracked editingSubscriptionId = null;

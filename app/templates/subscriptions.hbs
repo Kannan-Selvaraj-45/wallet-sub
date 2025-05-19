@@ -1,4 +1,4 @@
-<div class="subscriptions-container"     {{on-key "Escape" this.transitionToRoute}}>
+<div class="subscriptions-container" {{on-key "Escape" this.transitionToRoute}}>
   <div class="subscriptions-header">
     <div class="header-content">
       <h1>Subscription Hub</h1>
@@ -192,41 +192,55 @@
       {{if this.showThreePlans "Discover More Subscriptions" "Show less"}}
     </button>
   </div>
+
   <div class="section-container">
     <div class="section-icon mb-2">
-      <i class="fas fa-star"></i>
+      <i class="fas fa-download"></i>
     </div>
-    <h2>Upgrade Protection</h2>
+    <h2>Download the app</h2>
   </div>
 
-  <div class="premium-plan shadow-sm">
-    <div class="premium-content">
-      <div class="premium-header">
-        <div class="premium-icon">
-          <i class="fas fa-crown"></i>
-          Premium Plan
+  <div class="download-section shadow-sm">
+    <h3 class="download-heading">Manage subscriptions on all your devices</h3>
+
+    <div class="download-options">
+      <div class="download-option">
+        <div class="platform-icon">
+          <i class="fab fa-windows"></i>
         </div>
-        <div class="premium-badge">Save 20%</div>
+        <h4>On Windows</h4>
+        <p>Track all your subscriptions on your PC with our desktop application</p>
+        <button class="download-btn" type="button">Download</button>
       </div>
-      <p class="premium-description">Unlock advanced analytics, spending
-        forecasts, and personalized recommendations.</p>
-      <div class="premium-features">
-        <div class="feature">
-          <i class="fas fa-check-circle"></i>
-          Advanced spending analytics
+
+      <div class="download-option">
+        <div class="platform-icon">
+          <i class="fab fa-apple"></i>
         </div>
-        <div class="feature">
-          <i class="fas fa-check-circle"></i>
-          Subscription optimizer
-        </div>
-        <div class="feature">
-          <i class="fas fa-check-circle"></i>
-          Priority customer support
-        </div>
+        <h4>On Mac</h4>
+        <p>Native macOS app optimized for Apple Silicon with notification
+          support</p>
+        <button class="download-btn" type="button">Download</button>
       </div>
-      <button class="upgrade-btn" type="button">
-        Upgrade for ₹499/year
-      </button>
+
+      <div class="download-option">
+        <div class="platform-icon">
+          <i class="fab fa-apple"></i>
+        </div>
+        <h4>On iOS</h4>
+        <p>Get renewal alerts and manage subscriptions on the go with our iOS
+          app</p>
+        <button class="download-btn" type="button">Download</button>
+      </div>
+
+      <div class="download-option">
+        <div class="platform-icon">
+          <i class="fab fa-android"></i>
+        </div>
+        <h4>On Android</h4>
+        <p>Never miss a payment with our feature-rich Android application</p>
+        <button class="download-btn" type="button">Download</button>
+      </div>
     </div>
   </div>
 
@@ -235,6 +249,285 @@
       <i class="fas fa-list"></i>
     </div>
     <h2>Your Subscriptions</h2>
+  </div>
+  <div class="your-subscriptions">
+    <div class="search-filter">
+      <div class="search-container">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          placeholder="Search subscriptions..."
+          {{on "input" this.searchTitle}}
+        />
+      </div>
+      <button class="filter-btn" type="button">
+        <i class="fas fa-filter"></i>
+        Filter
+      </button>
+    </div>
+
+    <div class="subscription-tabs">
+      <button
+        class="tab-btn {{if this.isAllActive 'active'}}"
+        type="button"
+        {{on "click" (fn this.setActiveTab "all")}}
+      >All</button>
+      <button
+        class="tab-btn {{if this.isActiveTabActive 'active'}}"
+        type="button"
+        {{on "click" (fn this.setActiveTab "active")}}
+      >Active</button>
+      <button
+        class="tab-btn {{if this.isInactiveActive 'active'}}"
+        type="button"
+        {{on "click" (fn this.setActiveTab "inactive")}}
+      >Inactive</button>
+    </div>
+
+    {{#if this.hasSubscriptions}}
+      {{#if this.isAllActive}}
+        <div class="subscription-list">
+          {{#each this.filteredSubscriptions as |subscription|}}
+            <div
+              class="subscription-item position-relative active-card-{{subscription.isActive}}"
+            >
+              {{#if (and subscription.isOffer subscription.isActive)}}
+                <span class="offered-card-badge-{{subscription.isOffer}}">{{if
+                    subscription.isActive
+                    "Offered"
+                    "Expired"
+                  }}
+                </span>
+              {{else if (and subscription.isOffer (not subscription.isActive))}}
+                <span class="active-card-badge-{{subscription.isActive}}">
+                  Expired
+                </span>
+
+              {{else}}
+                <span class="active-card-badge-{{subscription.isActive}}">
+                  {{subscription.plan}}
+                </span>
+              {{/if}}
+
+              <div class="subscription-item-logo">
+                <div class="logo-placeholder">{{get
+                    subscription.title
+                    "0"
+                  }}</div>
+              </div>
+              <div class="subscription-item-details">
+                <div class="subscription-item-name">{{subscription.title}}</div>
+                <div
+                  class="subscription-item-category"
+                >{{subscription.category}}
+                  |
+                  <span
+                    class="active-pay"
+                  >{{subscription.paymentMethod}}</span></div>
+
+              </div>
+              <div class="subscription-item-price">
+                <div class="price">₹{{subscription.planPrice}}</div>
+                <div class="billing-cycle">/{{subscription.planCycle}}</div>
+              </div>
+
+              <div class="subscription-start-date">
+                <input
+                  type="date"
+                  value={{subscription.startDate}}
+                  class="disabled-date"
+                  disabled
+                />
+                <span class="start-date">subscribed</span>
+              </div>
+              <div class="subscription-start-date">
+                <input
+                  type="date"
+                  value={{subscription.nextDue}}
+                  class="disabled-date"
+                  disabled
+                />
+                <span class="start-date">Next due</span>
+              </div>
+              <div class="subscription-item-actions">
+                <button
+                  class="action-btn"
+                  type="button"
+                  {{on "click" (fn this.editSubscription subscription)}}
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button
+                  class="action-btn"
+                  type="button"
+                  {{on "click" (fn this.deleteSubscription subscription)}}
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+
+      {{else if this.isActiveTabActive}}
+        <div class="subscription-list">
+          {{#if this.anyActiveSubscriptions}}
+            {{#each this.filteredSubscriptions as |subscription|}}
+
+              {{#if subscription.isActive}}
+                <div class="subscription-item position-relative">
+                  <span class="active-card-badge-{{subscription.isActive}}">
+                    Active
+                  </span>
+                  <div class="subscription-item-logo">
+                    <div class="logo-placeholder">{{get
+                        subscription.title
+                        "0"
+                      }}</div>
+                  </div>
+                  <div class="subscription-item-details">
+                    <div
+                      class="subscription-item-name"
+                    >{{subscription.title}}</div>
+                    <div
+                      class="subscription-item-category"
+                    >{{subscription.category}}</div>
+                  </div>
+                  <div class="subscription-item-price">
+                    <div class="price">₹{{subscription.planPrice}}</div>
+                    <div class="billing-cycle">/{{subscription.planCycle}}</div>
+                  </div>
+                  <div class="subscription-start-date">
+
+                    <input
+                      type="date"
+                      value={{subscription.startDate}}
+                      class="disabled-date"
+                      disabled
+                    />
+                    <span class="start-date">subscribed</span>
+                  </div>
+                  <div class="subscription-start-date">
+                    <input
+                      type="date"
+                      value={{subscription.nextDue}}
+                      class="disabled-date"
+                      disabled
+                    />
+                    <span class="start-date">Next due</span>
+                  </div>
+
+                  <div class="subscription-item-actions">
+                    <button
+                      class="action-btn"
+                      type="button"
+                      {{on "click" (fn this.editSubscription subscription)}}
+                    >
+                      <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button
+                      class="action-btn"
+                      type="button"
+                      {{on "click" (fn this.deleteSubscription subscription)}}
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              {{/if}}
+
+            {{/each}}
+
+          {{else}}
+            <div class="empty-subscriptions">
+              <div class="empty-icon">
+                <i class="fas fa-box-open"></i>
+              </div>
+              <h3>No active subscriptions </h3>
+              <button
+                class="add-first-btn"
+                type="button"
+                {{on "click" this.openAddSubscriptionModal}}
+              >
+                <i class="fas fa-plus"></i>
+                Add new subscription
+              </button>
+            </div>
+          {{/if}}
+
+        </div>
+      {{else}}
+        <div class="subscription-list">
+          {{#if this.inactiveSubscriptions}}
+            {{#each this.inactiveSubscriptions as |subscription|}}
+              <div class="subscription-item">
+                <span class="active-card-badge-false">Expired</span>
+                <div class="subscription-item-logo">
+                  <div class="logo-placeholder">{{get
+                      subscription.title
+                      "0"
+                    }}</div>
+                </div>
+                <div class="subscription-item-details">
+                  <div
+                    class="subscription-item-name"
+                  >{{subscription.title}}</div>
+                  <div
+                    class="subscription-item-category"
+                  >{{subscription.category}}</div>
+                </div>
+                <div class="subscription-item-price">
+                  <div class="price">₹{{subscription.planPrice}}</div>
+                  <div class="billing-cycle">/{{subscription.planCycle}}</div>
+                </div>
+                <div class="subscription-item-actions">
+                  <button class="action-btn" type="button">
+                    <i class="fas fa-pencil-alt"></i>
+                  </button>
+                  <button class="action-btn" type="button">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="empty-subscriptions">
+              <div class="empty-icon">
+                <i class="fas fa-box-open"></i>
+              </div>
+              <h3>No inactive subscriptions </h3>
+              <button
+                class="add-first-btn"
+                type="button"
+                {{on "click" this.openAddSubscriptionModal}}
+              >
+                <i class="fas fa-plus"></i>
+                Add new subscription
+              </button>
+            </div>
+          {{/if}}
+        </div>
+      {{/if}}
+
+    {{else}}
+      <div class="empty-subscriptions">
+        <div class="empty-icon">
+          <i class="fas fa-box-open"></i>
+        </div>
+        <h3>No subscriptions yet</h3>
+        <p>Start tracking your recurring payments by adding your first
+          subscription.</p>
+        <button
+          class="add-first-btn"
+          type="button"
+          {{on "click" this.openAddSubscriptionModal}}
+        >
+          <i class="fas fa-plus"></i>
+          Add your first subscription
+        </button>
+      </div>
+    {{/if}}
+
   </div>
 
   {{#if this.showAddSubscriptionModal}}
@@ -530,282 +823,4 @@
       </div>
     </div>
   {{/if}}
-
-  <div class="your-subscriptions">
-    <div class="search-filter">
-      <div class="search-container">
-        <i class="fas fa-search"></i>
-        <input
-          type="text"
-          placeholder="Search subscriptions..."
-          {{on "input" this.searchTitle}}
-        />
-      </div>
-      <button class="filter-btn" type="button">
-        <i class="fas fa-filter"></i>
-        Filter
-      </button>
-    </div>
-
-    <div class="subscription-tabs">
-      <button
-        class="tab-btn {{if this.isAllActive 'active'}}"
-        type="button"
-        {{on "click" (fn this.setActiveTab "all")}}
-      >All</button>
-      <button
-        class="tab-btn {{if this.isActiveTabActive 'active'}}"
-        type="button"
-        {{on "click" (fn this.setActiveTab "active")}}
-      >Active</button>
-      <button
-        class="tab-btn {{if this.isInactiveActive 'active'}}"
-        type="button"
-        {{on "click" (fn this.setActiveTab "inactive")}}
-      >Inactive</button>
-    </div>
-
-    {{#if this.hasSubscriptions}}
-      {{#if this.isAllActive}}
-        <div class="subscription-list">
-          {{#each this.filteredSubscriptions as |subscription|}}
-            <div
-              class="subscription-item position-relative active-card-{{subscription.isActive}}"
-            >
-              {{#if (and subscription.isOffer subscription.isActive)}}
-                <span class="offered-card-badge-{{subscription.isOffer}}">{{if
-                    subscription.isActive
-                    "Offered"
-                    "Expired"
-                  }}
-                </span>
-              {{else if (and subscription.isOffer (not subscription.isActive))}}
-                <span class="active-card-badge-{{subscription.isActive}}">
-                  Expired
-                </span>
-
-              {{else}}
-                <span class="active-card-badge-{{subscription.isActive}}">
-                  {{subscription.plan}}
-                </span>
-              {{/if}}
-
-              <div class="subscription-item-logo">
-                <div class="logo-placeholder">{{get
-                    subscription.title
-                    "0"
-                  }}</div>
-              </div>
-              <div class="subscription-item-details">
-                <div class="subscription-item-name">{{subscription.title}}</div>
-                <div
-                  class="subscription-item-category"
-                >{{subscription.category}} | <span class="active-pay">{{subscription.paymentMethod}}</span></div>
-              
-              </div>
-              <div class="subscription-item-price">
-                <div class="price">₹{{subscription.planPrice}}</div>
-                <div class="billing-cycle">/{{subscription.planCycle}}</div>
-              </div>
-
-                
-
-              <div class="subscription-start-date">
-                <input
-                  type="date"
-                  value={{subscription.startDate}}
-                  class="disabled-date"
-                  disabled
-                />
-                <span class="start-date">subscribed</span>
-              </div>
-              <div class="subscription-start-date">
-                <input
-                  type="date"
-                  value={{subscription.nextDue}}
-                  class="disabled-date"
-                  disabled
-                />
-                <span class="start-date">Next due</span>
-              </div>
-              <div class="subscription-item-actions">
-                <button
-                  class="action-btn"
-                  type="button"
-                  {{on "click" (fn this.editSubscription subscription)}}
-                >
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button
-                  class="action-btn"
-                  type="button"
-                  {{on "click" (fn this.deleteSubscription subscription)}}
-                >
-                  <i class="fas fa-trash"></i>
-                </button>
-              </div>
-            </div>
-          {{/each}}
-        </div>
-
-      {{else if this.isActiveTabActive}}
-        <div class="subscription-list">
-          {{#if this.anyActiveSubscriptions}}
-            {{#each this.filteredSubscriptions as |subscription|}}
-
-              {{#if subscription.isActive}}
-                <div class="subscription-item position-relative">
-                  <span class="active-card-badge-{{subscription.isActive}}">
-                    Active
-                  </span>
-                  <div class="subscription-item-logo">
-                    <div class="logo-placeholder">{{get
-                        subscription.title
-                        "0"
-                      }}</div>
-                  </div>
-                  <div class="subscription-item-details">
-                    <div
-                      class="subscription-item-name"
-                    >{{subscription.title}}</div>
-                    <div
-                      class="subscription-item-category"
-                    >{{subscription.category}}</div>
-                  </div>
-                  <div class="subscription-item-price">
-                    <div class="price">₹{{subscription.planPrice}}</div>
-                    <div class="billing-cycle">/{{subscription.planCycle}}</div>
-                  </div>
-                  <div class="subscription-start-date">
-
-                    <input
-                      type="date"
-                      value={{subscription.startDate}}
-                      class="disabled-date"
-                      disabled
-                    />
-                    <span class="start-date">subscribed</span>
-                  </div>
-                  <div class="subscription-start-date">
-                    <input
-                      type="date"
-                      value={{subscription.nextDue}}
-                      class="disabled-date"
-                      disabled
-                    />
-                    <span class="start-date">Next due</span>
-                  </div>
-
-                  <div class="subscription-item-actions">
-                    <button
-                      class="action-btn"
-                      type="button"
-                      {{on "click" (fn this.editSubscription subscription)}}
-                    >
-                      <i class="fas fa-pencil-alt"></i>
-                    </button>
-                    <button
-                      class="action-btn"
-                      type="button"
-                      {{on "click" (fn this.deleteSubscription subscription)}}
-                    >
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              {{/if}}
-
-            {{/each}}
-
-          {{else}}
-            <div class="empty-subscriptions">
-              <div class="empty-icon">
-                <i class="fas fa-box-open"></i>
-              </div>
-              <h3>No active subscriptions </h3>
-              <button
-                class="add-first-btn"
-                type="button"
-                {{on "click" this.openAddSubscriptionModal}}
-              >
-                <i class="fas fa-plus"></i>
-                Add new subscription
-              </button>
-            </div>
-          {{/if}}
-
-        </div>
-      {{else}}
-        <div class="subscription-list">
-          {{#if this.inactiveSubscriptions}}
-            {{#each this.inactiveSubscriptions as |subscription|}}
-              <div class="subscription-item">
-                <span class="active-card-badge-false">Expired</span>
-                <div class="subscription-item-logo">
-                  <div class="logo-placeholder">{{get
-                      subscription.title
-                      "0"
-                    }}</div>
-                </div>
-                <div class="subscription-item-details">
-                  <div
-                    class="subscription-item-name"
-                  >{{subscription.title}}</div>
-                  <div
-                    class="subscription-item-category"
-                  >{{subscription.category}}</div>
-                </div>
-                <div class="subscription-item-price">
-                  <div class="price">₹{{subscription.planPrice}}</div>
-                  <div class="billing-cycle">/{{subscription.planCycle}}</div>
-                </div>
-                <div class="subscription-item-actions">
-                  <button class="action-btn" type="button">
-                    <i class="fas fa-pencil-alt"></i>
-                  </button>
-                  <button class="action-btn" type="button">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            {{/each}}
-          {{else}}
-            <div class="empty-subscriptions">
-              <div class="empty-icon">
-                <i class="fas fa-box-open"></i>
-              </div>
-              <h3>No inactive subscriptions </h3>
-              <button
-                class="add-first-btn"
-                type="button"
-                {{on "click" this.openAddSubscriptionModal}}
-              >
-                <i class="fas fa-plus"></i>
-                Add new subscription
-              </button>
-            </div>
-          {{/if}}
-        </div>
-      {{/if}}
-
-    {{else}}
-      <div class="empty-subscriptions">
-        <div class="empty-icon">
-          <i class="fas fa-box-open"></i>
-        </div>
-        <h3>No subscriptions yet</h3>
-        <p>Start tracking your recurring payments by adding your first
-          subscription.</p>
-        <button
-          class="add-first-btn"
-          type="button"
-          {{on "click" this.openAddSubscriptionModal}}
-        >
-          <i class="fas fa-plus"></i>
-          Add your first subscription
-        </button>
-      </div>
-    {{/if}}
-
-  </div>
 </div>

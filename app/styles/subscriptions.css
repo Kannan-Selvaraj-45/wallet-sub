@@ -213,10 +213,10 @@
   gap: 20px;
 }
 .service-description {
-  font-size: 14px;
+  font-size: 13px;
   color: #666666;
   margin-bottom: 20px;
-  line-height: 1.5;
+ 
   min-height: 50px;
 }
 
@@ -550,11 +550,13 @@ select {
   background-color: #4d2c91;
 }
 .your-subscriptions {
+
   background-color: #ffffff;
   border-radius: 12px;
   padding: 32px;
   margin-bottom: 32px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    min-height: 50vh !important;
 }
 .search-filter {
   display: flex;
@@ -918,4 +920,95 @@ select {
   color: #7e57c2;
   font-size: 12px;
   font-weight: bold;
+}
+
+ 
+.download-section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 32px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.download-heading {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 32px;
+}
+
+.download-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.download-option {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #7e57c2;
+}
+
+.platform-icon {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #7e57c2;
+}
+
+.download-option h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333333;
+}
+
+.download-option p {
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.download-btn {
+  background: none;
+  border: none;
+  color: #7e57c2;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+  font-size: 14.4px;
+  text-decoration: none;
+  position: relative;
+}
+
+.download-btn:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+  .download-options {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .download-heading {
+    font-size: 32px;
+  }
 }
