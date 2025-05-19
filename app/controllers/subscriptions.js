@@ -49,9 +49,9 @@ export default class SubscriptionsController extends Controller {
       const filtered = this.subscriptions.userSubscriptions.filter((sub) =>
         sub.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
       );
-      return filtered;
+      return filtered.reverse();
     }
-    return this.subscriptions.userSubscriptions;
+    return this.subscriptions.userSubscriptions.reverse();
   }
 
   get anyActiveSubscriptions() {
@@ -248,7 +248,7 @@ export default class SubscriptionsController extends Controller {
       case 'quarterly':
         return 12 * 1000;
       case 'yearly':
-        return 15* 1000;
+        return 15 * 1000;
       default:
         return 15 * 1000;
     }
@@ -270,15 +270,14 @@ export default class SubscriptionsController extends Controller {
       return;
     }
 
- 
     this.wallet.balance -= subscription.planPrice;
- 
+
     const updatedSubscriptions = this.subscriptions.userSubscriptions.map(
       (sub) => {
         return sub.id === subscriptionId ? { ...sub, isActive: false } : sub;
       },
     );
- 
+
     const newSubscriptionId = Date.now();
 
     const newSubscription = {
@@ -289,13 +288,11 @@ export default class SubscriptionsController extends Controller {
       nextDue: this.nextDue(new Date(), subscription.planCycle),
     };
 
- 
     this.subscriptions.userSubscriptions = [
       ...updatedSubscriptions,
       newSubscription,
     ];
 
- 
     const newTransaction = {
       id: newSubscriptionId,
       title: subscription.title,
@@ -308,15 +305,14 @@ export default class SubscriptionsController extends Controller {
 
     this.history.transactions = [...this.history.transactions, newTransaction];
 
-     this.wallet.calculateMonthlyExpense();
+    this.wallet.calculateMonthlyExpense();
 
     this.flashMessages.success(
       `Auto-renewal successful for ${subscription.title} subscription.`,
     );
 
- 
     this.clearTimerForSubscription(subscriptionId);
- 
+
     this.setupAutoRenewalTimer(newSubscriptionId);
   }
 
@@ -403,6 +399,7 @@ export default class SubscriptionsController extends Controller {
             this.flashMessages.info('Subscription edited successfully!');
             return {
               ...sub,
+              planCycle: this.newSubscription.planCycle,
               planPrice: this.newSubscription.planPrice,
               category: this.newSubscription.category,
               paymentMethod: this.newSubscription.paymentMethod,
@@ -410,6 +407,7 @@ export default class SubscriptionsController extends Controller {
               isActive: true,
               offerPlan: this.newSubscription.offerPlan,
               isOffer: this.newSubscription.isOffer,
+              nextDue: this.nextDue(new Date(), this.newSubscription.planCycle),
             };
           }
 
@@ -431,6 +429,19 @@ export default class SubscriptionsController extends Controller {
       this.history.transactions = updateTransaction;
 
       this.subscriptions.userSubscriptions = updateSubscriptions;
+
+      const editedSub = this.subscriptions.userSubscriptions.find(
+        (sub) => sub.id === this.editingSubscriptionId,
+      );
+
+      if (
+        editedSub &&
+        editedSub.isActive &&
+        editedSub.paymentMethod === 'Wallet'
+      ) {
+        this.clearTimerForSubscription(editedSub.id);
+        this.setupAutoRenewalTimer(editedSub.id);
+      }
 
       this.wallet.calculateMonthlyExpense();
       this.isEditing = false;
