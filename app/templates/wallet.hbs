@@ -1,5 +1,4 @@
-
-<div class="wallet-container"  {{on-key "Escape" this.transitionToRoute}}>
+<div class="wallet-container" {{on-key "Escape" this.transitionToRoute}}>
   <div class="wallet-header">
     <div class="header-content">
       <div class="subtitle">DIGITAL WALLET</div>
@@ -44,7 +43,6 @@
       </div>
     </div>
   </div>
-
   <div class="wallet-tabs">
     <div class="tab-buttons">
       <button
@@ -67,18 +65,18 @@
       {{#if this.isOverviewActive}}
         <div class="overview-tab">
           <div class="stats-cards">
-            <div class="stat-card">
+            <div class="stat-card shadow-sm">
               <div class="stat-title">Monthly Income</div>
               <div class="stat-value"><span
                   style={{if this.positiveIn "color:#7036e7;"}}
                 >₹</span>
                 {{this.wallet.monthlyIn}}.00</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-title">Monthly Expense</div>
+            <div class="stat-card shadow-sm">
+              <div class="stat-title">Total Expense</div>
               <div class="stat-value">₹ {{this.totMonthlyExpenses}}</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card shadow-sm">
               <div class="stat-title">Budget Usage</div>
               <div class="budget-progress">
                 <div class="progress-bar">
@@ -104,7 +102,7 @@
             </div>
           </div>
 
-          <div class="section-card">
+          <div class="section-card shadow-sm">
             <div class="section-header">
               <h2>Recent Transactions</h2>
               <a

@@ -1,6 +1,5 @@
-
-<div class="dashboard-container" >
-  <div class="dashboard-header shadow-sm">
+<div class="dashboard-container">
+  <div class="dashboard-header shadow">
     <div class="header-content">
       <h1>Welcome Kannan,</h1>
       <p>Manage all your subscriptions in one place. Track spending, set
@@ -51,7 +50,7 @@
   </div>
 
   <div class="dashboard-stats-container">
-    <div class="dashboard-stat-card">
+    <div class="dashboard-stat-card shadow-sm">
       <div class="d-flex align-items-center">
         <div class="dashboard-stat-icon">
           <svg
@@ -82,7 +81,7 @@
         {{on "click" (fn this.transitionToRoute "wallet")}}
       >Manage Wallet</button>
     </div>
-    <div class="dashboard-stat-card">
+    <div class="dashboard-stat-card shadow-sm">
       <div class="d-flex align-items-center mb-1">
         <div class="dashboard-stat-icon">
           <svg
@@ -111,7 +110,7 @@
           >{{this.subscriptions.activeSubscriptions}}</p>
         </div>
         <div class="analytics-card">
-          <span class="analytics-title">Monthly Spending</span>
+          <span class="analytics-title">Total Spending</span>
           <p
             class="analytics-value montly-count-value"
           >₹{{this.totMonthlyExpenses}}</p>
@@ -142,7 +141,7 @@
   </div>
 
   <div class="min-stat-container">
-    <div class="min-stat-card">
+    <div class="min-stat-card shadow-sm">
       <div class="d-flex align-items-center">
         <div class="dashboard-stat-icon">
           <svg
@@ -183,7 +182,7 @@
       >Manage Subscriptions</button>
     </div>
 
-    <div class="min-stat-card">
+    <div class="min-stat-card shadow-sm">
       <div class="d-flex align-items-center">
         <div class="dashboard-stat-icon">
           <svg
@@ -216,7 +215,7 @@
       >View Details</button>
     </div>
 
-    <div class="min-stat-card">
+    <div class="min-stat-card shadow-sm">
       <div class="d-flex align-items-center">
         <div class="dashboard-stat-icon">
           <svg
@@ -239,7 +238,7 @@
       </div>
       <div class="min-stat-value"><span class="min-stat-plan">Basic</span></div>
       <button
-        class="btn btn-light btn-block upgrade text-light"
+        class="btn btn-light btn-block upgrade text-light shadow-sm"
         type="button"
         {{on "click" (fn this.transitionToRoute "upgrade")}}
       >Upgrade</button>
@@ -247,7 +246,7 @@
   </div>
 
   <div class="dashboard-sections">
-    <div class="section-card">
+    <div class="section-card shadow-sm">
       <div class="section-header">
         <h2>Recent Subscriptions</h2>
         <a
@@ -303,7 +302,7 @@
       {{/if}}
     </div>
 
-    <div class="section-card">
+    <div class="section-card shadow-sm">
       <div class="section-header">
         <h2>Recent Transactions</h2>
         <a
@@ -371,7 +370,7 @@
     <div class="offers-row">
       {{#each this.offers as |offer|}}
         <div
-          class="offer-card"
+          class="offer-card shadow-sm"
           style="background: linear-gradient(to right, {{get
             offer.colors
             '0'

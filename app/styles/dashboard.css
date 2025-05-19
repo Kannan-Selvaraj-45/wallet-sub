@@ -8,7 +8,7 @@
 .dashboard-header {
   background: linear-gradient(166deg, #7e57c2, #4d2c91);
   color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 33px 35px;
   margin-bottom: 25px;
   display: flex;
@@ -80,14 +80,16 @@
 
 .stat-card {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ 
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
+
+
 
 .stat-icon {
   width: 50px;
@@ -151,11 +153,14 @@
 
 .section-card {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  
 }
-
+.section-card:hover {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+  transition: all .2s ease;
+}
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -255,16 +260,20 @@
   flex-direction: column;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+ 
 }
-
+.offer-card:hover {
+ 
+  box-shadow: 0 4px 0px rgba(0,0,0,0.2) !important;
+  transition: all .2s ease;
+}
 .offer-image-container {
   position: relative;
   height: 200px;
   background-size: cover;
   background-position: center;
 }
-
+ 
 .featured {
   position: absolute;
   top: 12px;
@@ -364,14 +373,18 @@
 }
 .dashboard-stat-card {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-
+.dashboard-stat-card:hover{
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+  transition: all .2s ease;
+  
+}
 .dashboard-stat-icon {
   width: 50px;
   height: 50px;
@@ -421,12 +434,18 @@
 }
 .min-stat-card {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.min-stat-card:hover{
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+  transition: all .2s ease;
+  
 }
 .min-stat-value {
   font-size: 24px;
@@ -456,7 +475,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 20px #8b5cf680;
+ 
 }
 
 .upgrade:hover {

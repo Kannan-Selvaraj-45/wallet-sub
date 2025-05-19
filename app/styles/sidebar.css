@@ -11,6 +11,7 @@
   width: 285px;
   height: 100vh;
   background-color: white;
+  
   border-right: 1px solid #f0f0f0;
   transition: width 0.3s ease;
   overflow-x: hidden;
