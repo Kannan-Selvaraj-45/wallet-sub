@@ -5,7 +5,7 @@
       <p>View and manage all your wallet transaction records in one place.</p>
     </div>
     <div class="header-actions">
-      <button class="export-btn" type="button">
+      <button class="export-btn" type="button" {{on 'click' (fn this.downloadDetails this.filteredTransactions) }}>
         <i class="fas fa-download"></i>
         Export
       </button>
@@ -191,7 +191,7 @@
                 >
                   <i class="fas fa-eye"></i>
                 </button>
-                <button class="action-btn" title="Download Receipt">
+                <button class="action-btn" title="Download Receipt" {{on 'click' (fn this.downloadDetails transaction)}}>
                   <i class="fas fa-file-download"></i>
                 </button>
               </div>
@@ -292,16 +292,11 @@
         </div>
 
         <div class="modal-footer">
-          <button class="download-receipt-btn">
+          <button class="download-receipt-btn" {{on 'click' (fn this.downloadDetails this.selectedTransaction) }}>
             <i class="fas fa-file-download"></i>
             Download Receipt
           </button>
-          {{#if (eq this.selectedTransaction.type "debit")}}
-            <button class="request-refund-btn">
-              <i class="fas fa-undo"></i>
-              Request Refund
-            </button>
-          {{/if}}
+         
         </div>
       </div>
     </div>

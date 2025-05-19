@@ -28,9 +28,27 @@ export default class HistoryController extends Controller {
     this.page = 1;
   }
 
+  @action
+  downloadDetails(item) {
+    const data = JSON.stringify(item, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+
+    a.href = url;
+    a.download = `${item.title || 'item-data'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
+
   get filteredTransactions() {
-    
-    let transactions = this.history.transactions.filter(item=>item.paymentMethod==='Wallet').reverse();
+    let transactions = this.history.transactions
+      .filter((item) => item.paymentMethod === 'Wallet')
+      .reverse();
 
     let searchQuery = this.searchQuery.toLowerCase();
     if (searchQuery) {

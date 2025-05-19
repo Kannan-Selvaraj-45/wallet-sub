@@ -1,20 +1,5 @@
-<div
-  class="flash-messages-container"
-  {{on-key "Escape" this.transitionToRoute}}
->
-  {{#each this.flashMessages.queue as |flash|}}
-    <div class="flash-message {{flash.type}}">
-      <p>{{flash.message}}</p>
-      <button
-        class="flash-close-button"
-        type="button"
-        {{on-click-outside (fn this.removeFlashMessage flash)}}
-        {{on "click" (fn this.removeFlashMessage flash)}}
-      >×</button>
-    </div>
-  {{/each}}
-</div>
-<div class="wallet-container">
+
+<div class="wallet-container"  {{on-key "Escape" this.transitionToRoute}}>
   <div class="wallet-header">
     <div class="header-content">
       <div class="subtitle">DIGITAL WALLET</div>

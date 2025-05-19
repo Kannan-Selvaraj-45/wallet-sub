@@ -1,20 +1,4 @@
-<div
-  class="flash-messages-container"
-  {{on-key "Escape" this.transitionToRoute}}
->
-  {{#each this.flashMessages.queue as |flash|}}
-    <div class="flash-message {{flash.type}}">
-      <p>{{flash.message}}</p>
-      <button
-        class="flash-close-button"
-        type="button"
-        {{on-click-outside (fn this.removeFlashMessage flash)}}
-        {{on "click" (fn this.removeFlashMessage flash)}}
-      >×</button>
-    </div>
-  {{/each}}
-</div>
-<div class="subscriptions-container">
+<div class="subscriptions-container"     {{on-key "Escape" this.transitionToRoute}}>
   <div class="subscriptions-header">
     <div class="header-content">
       <h1>Subscription Hub</h1>

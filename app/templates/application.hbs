@@ -1,5 +1,20 @@
-
-<Sidebar @onToggle={{this.handleSidebarToggle}}/>
+<Sidebar @onToggle={{this.handleSidebarToggle}} />
 <div class="main-content {{if this.isSidebarCollapsed 'sidebar-collapsed'}}">
+
+  <div
+    class="flash-messages-container"
+  >
+    {{#each this.flashMessages.queue as |flash|}}
+      <div class="flash-message {{flash.type}}">
+        <p>{{flash.message}}</p>
+        <button
+          class="flash-close-button"
+          type="button"
+          {{on-click-outside (fn this.removeFlashMessage flash)}}
+          {{on "click" (fn this.removeFlashMessage flash)}}
+        >×</button>
+      </div>
+    {{/each}}
+  </div>
   {{outlet}}
 </div>
