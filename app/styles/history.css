@@ -2,8 +2,7 @@
   padding: 20px;
   height: 100%;
   overflow-y: auto;
-  background-color: #f8f9fa;
-  
+  background-color: #F7F9FB;
   font-family: Roboto;
   color: #333333;
   position: relative;
@@ -87,7 +86,7 @@
 
 .filter-search-container input {
   padding: 11px 40px;
-  width: 100%;
+  width: 90%;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 14px;
@@ -138,7 +137,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-left: auto;
+  
 }
 
 .filter-pill {
@@ -306,9 +305,10 @@
 }
 
 .transactions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+   
+  gap: 16px;
 }
 
 .transaction-item {
@@ -319,6 +319,7 @@
   border: 1px solid #e0e0e0;
   transition: all 0.2s ease;
   cursor: pointer;
+ 
 }
 
 .transaction-item:hover {
@@ -444,10 +445,15 @@
   color: #7e57c2;
 }
 
+ 
 .load-more {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  margin-top: 20px;
+  align-self: center;
+  margin-top: 15px;
+  width: 100% !important;
+
 }
 
 .load-more-btn {

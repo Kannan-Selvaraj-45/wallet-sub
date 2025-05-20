@@ -2,7 +2,7 @@
   padding: 20px;
   height: 100%;
   overflow-y: auto;
-  background-color: #f8f9fa;
+  background-color: #F7F9FB;
   
 }
 
@@ -45,7 +45,7 @@
 
 .balance-card-container {
   background-color: #ffffff26;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
   text-align: center;
   backdrop-filter: blur(5px);

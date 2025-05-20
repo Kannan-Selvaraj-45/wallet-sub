@@ -10,7 +10,7 @@
   flex-direction: column;
   width: 285px;
   height: 100vh;
-  background-color: white;
+  background-color: #F7F9FB;
   
   border-right: 1px solid #f0f0f0;
   transition: width 0.3s ease;

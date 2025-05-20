@@ -198,18 +198,20 @@
             </div>
 
           {{/each}}
-
+        </div>
           {{#if this.hasMoreTransactions}}
-            <div class="load-more">
+          
+              <div class="load-more">
               <button
                 class="load-more-btn"
                 {{on "click" this.loadMoreTransactions}}
               >
                 Load More Transactions
               </button>
-            </div>
+       
+          </div>
+          
           {{/if}}
-        </div>
       {{else}}
         <div class="empty-transactions">
           <div class="empty-icon">

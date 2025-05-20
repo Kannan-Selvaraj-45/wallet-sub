@@ -13,7 +13,7 @@ export default class HistoryController extends Controller {
   @tracked filteredLength;
 
   @tracked page = 1;
-  @tracked perPage = 3;
+  @tracked perPage =15;
 
   @tracked showTransactionDetails = false;
   @tracked selectedTransaction = null;
