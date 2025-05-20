@@ -66,9 +66,8 @@
 }
 .filter-section {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
  
 }
 
@@ -100,6 +99,7 @@
 
 .date-filter {
   min-width: 200px;
+ 
 }
 
 .select-wrapper {
