@@ -5,7 +5,11 @@
       <p>View and manage all your wallet transaction records in one place.</p>
     </div>
     <div class="header-actions">
-      <button class="export-btn" type="button" {{on 'click' (fn this.downloadDetails this.filteredTransactions) }}>
+      <button
+        class="export-btn"
+        type="button"
+        {{on "click" (fn this.downloadDetails this.filteredTransactions)}}
+      >
         <i class="fas fa-download"></i>
         Export
       </button>
@@ -191,7 +195,11 @@
                 >
                   <i class="fas fa-eye"></i>
                 </button>
-                <button class="action-btn" title="Download Receipt" {{on 'click' (fn this.downloadDetails transaction)}}>
+                <button
+                  class="action-btn"
+                  title="Download Receipt"
+                  {{on "click" (fn this.downloadDetails transaction)}}
+                >
                   <i class="fas fa-file-download"></i>
                 </button>
               </div>
@@ -199,19 +207,19 @@
 
           {{/each}}
         </div>
-          {{#if this.hasMoreTransactions}}
-          
-              <div class="load-more">
-              <button
-                class="load-more-btn"
-                {{on "click" this.loadMoreTransactions}}
-              >
-                Load More Transactions
-              </button>
-       
+        {{#if this.hasMoreTransactions}}
+
+          <div class="load-more">
+            <button
+              class="load-more-btn"
+              {{on "click" this.loadMoreTransactions}}
+            >
+              Load More Transactions
+            </button>
+
           </div>
-          
-          {{/if}}
+
+        {{/if}}
       {{else}}
         <div class="empty-transactions">
           <div class="empty-icon">
@@ -294,11 +302,14 @@
         </div>
 
         <div class="modal-footer">
-          <button class="download-receipt-btn" {{on 'click' (fn this.downloadDetails this.selectedTransaction) }}>
+          <button
+            class="download-receipt-btn"
+            {{on "click" (fn this.downloadDetails this.selectedTransaction)}}
+          >
             <i class="fas fa-file-download"></i>
             Download Receipt
           </button>
-         
+
         </div>
       </div>
     </div>
